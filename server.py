@@ -5,6 +5,7 @@ from flask import Flask, render_template
 from flask_sock import Sock
 import pty
 import os
+import sys
 import select
 import subprocess
 import threading
@@ -26,7 +27,7 @@ def terminal(ws):
     env = os.environ.copy()
     env['TERM'] = 'xterm-256color'
     proc = subprocess.Popen(
-        ['python', '-u', SCRIPT_PATH],
+        [sys.executable, '-u', SCRIPT_PATH],
         stdin=slave_fd,
         stdout=slave_fd,
         stderr=slave_fd,
