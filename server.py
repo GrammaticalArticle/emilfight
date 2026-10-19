@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask_sock import Sock
-from asgiref.wsgi import WsgToAsgi
+from asgiref.wsgi import WsgiToAsgi
 import pty
 import os
 import select
