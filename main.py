@@ -19,6 +19,8 @@ Build Command: pip install -r requirements.txt
 Start Command: gunicorn server:app (replace server with your main file name if different)
 """
 
+attackonly = True
+
 sys.stdin.reconfigure(encoding="utf-8")
 
 # Animations #
@@ -367,6 +369,7 @@ LANGUAGES = {
         "upgrade_shield": "Upgrade Shield",
         "upgrade_health": "Upgrade Health",
         "upgrade_done": "{stat} upgraded! Multiplier is now {val}%",
+        "attack_only_omar": "Did you really think I would not notice you picking Attack each time.",
     },
     "sv": {
         "menu_invalid": "Välj ett av sifrorna ovan.",
@@ -402,6 +405,7 @@ LANGUAGES = {
         "upgrade_shield": "Uppgradera Sköld",
         "upgrade_health": "Uppgradera Hälsa",
         "upgrade_done": "{stat} uppgraderad! Multiplikatorn är nu {val}%",
+        "attack_only_omar": "Trodde du verkligen att jag inte skulle märka att du bara valde Attack.",
     },
     "ja": {
         "menu_invalid": "有効な番号を入力してください！",
@@ -437,6 +441,7 @@ LANGUAGES = {
         "upgrade_shield": "シールドを強化",
         "upgrade_health": "最大HPを強化",
         "upgrade_done": "{stat}完了！ 倍率が {val}% にアップ！",
+        "attack_only_omar": "毎回『攻撃』を選んでいることに、私が気づかないとでも思ったの？"
     },
     "uk": {
         "menu_invalid": "Вибери одну з цифр.",
@@ -472,6 +477,7 @@ LANGUAGES = {
         "upgrade_shield": "Прокачати Щит",
         "upgrade_health": "Прокачати Здоров'я",
         "upgrade_done": "{stat} прокачано! Тепер бонус {val}%",
+        "attack_only_omar": "Ти реально думав що я не помічу що ти щоразу вибирав атаку?",
     },
 }
 
@@ -499,6 +505,31 @@ BOSSES = {
             "sv": "Grattis till att du besegrade Omar!\nDet var en riktigt svår fight du överlevde!",
             "ja": "ウーマー撃破おめでとう！\nかなりの死闘を生き残ったな！",
             "uk": "Молодець! Ти виграв проти Умара! \nТо була важка битва!"
+        },
+        "animation": None,
+    },
+    "Prime Omar": {
+        "names": {"en": "Prime Omar", "sv": "Prime Omar", "ja": "プライムウーマー", "uk": "Прайм Умар"},
+        "hp": 160,
+        "attack_low": 35,
+        "attack_high": 90,
+        "quotes": {
+            "en": "is cracking his knuckles.",
+            "sv": "knäcker sina knogar.",
+            "ja": "は指の関節を鳴らしている。",
+            "uk": "хрустить пальцями."
+        },
+        "attack_lines": {
+            "en": "lands a punch and deals {damage} damage!",
+            "sv": "får in ett slag och gör {damage} skada!",
+            "ja": "のパンチが炸裂！ {damage}ダメージを受けた！",
+            "uk": "ударяє тебе і наносить {damage} урона!"
+        },
+        "post_victory": {
+            "en": "Congratulations on beating PRIME Omar!\nThat is one difficult fight you survived!",
+            "sv": "Grattis till att du besegrade PRIME Omar!\nDet var en riktigt svår fight du överlevde!",
+            "ja": "プライムウーマー撃破おめでとう！\nかなりの死闘を生き残ったな！",
+            "uk": "Молодець! Ти виграв проти Прайм Умара! \nТо була важка битва!"
         },
         "animation": None,
     },
@@ -756,10 +787,8 @@ def fightloop(boss_key, playername):
 clear()
 sleep(1)
 tprint("[ 966 lines of code ]", style=Style.BRIGHT)
-tprint("[    4 languages    ]")
-tprint(" >         språk    ]")
-tprint(" >          мови    ]")
-tprint(" >          言語    ]")
+tprint("[   4   ]")
+tprint("languages          \rspråk              \rмови               \r 言語               ", fore=Fore.GREEN)
 print()
 sleep(1)
 tprint("┏━━━━━━━━━━━━━━┓")
@@ -828,6 +857,7 @@ if alive:
             )
         elif first_choice == "4":
             shieldmulti *= 1.5
+            attackonly = False
             tprint(
                 get_text(
                     "upgrade_done",
@@ -837,6 +867,7 @@ if alive:
             )
         elif first_choice == "5":
             healthmulti *= 1.5
+            attackonly = False
             tprint(
                 get_text(
                     "upgrade_done",
@@ -854,9 +885,11 @@ if alive:
 
     # Determine Fight 1 & Fight 2 order
     if first_choice == "1":
+        attackonly = False
         first_boss = "Oscar"
         second_boss = "Tage Mage"
     else:
+        attackonly = False
         first_boss = "Tage Mage"
         second_boss = "Oscar"
 
@@ -891,6 +924,7 @@ if alive:
                 )
             )
         elif second_choice == "3":
+            attackonly = False
             shieldmulti *= 1.5
             tprint(
                 get_text(
@@ -900,6 +934,7 @@ if alive:
                 )
             )
         elif second_choice == "4":
+            attackonly = False
             healthmulti *= 1.5
             tprint(
                 get_text(
@@ -916,6 +951,7 @@ if alive:
         second_choice = get_menu_choice("1")
 
     # Run Fight 2
+    attackonly = False
     fightloop(second_boss, playername)
 
 # --- STEP 4: Boss Fight 3 (Omar) ---
@@ -945,6 +981,7 @@ if alive:
             )
         elif omar_choice == "3":
             shieldmulti *= 1.5
+            attackonly = False
             tprint(
                 get_text(
                     "upgrade_done",
@@ -954,6 +991,7 @@ if alive:
             )
         elif omar_choice == "4":
             healthmulti *= 1.5
+            attackonly = False
             tprint(
                 get_text(
                     "upgrade_done",
@@ -965,4 +1003,9 @@ if alive:
         sleep(2)
 
     # Fight against Omar
-    fightloop("Omar", playername)
+    if attackonly == False:
+        fightloop("Omar", playername)
+    else:
+        stat=get_text("attack_only_omar")
+        sleep(2)
+        fightloop("Prime Omar", playername)
