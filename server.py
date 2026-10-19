@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from flask_sock import Sock
+from asgiref.wsgi import WsgToAsgi
 import pty
 import os
 import select
@@ -8,6 +9,8 @@ import threading
 
 app = Flask(__name__)
 sock = Sock(app)
+
+asgi_app = WsgToAsgi(app)
 
 SCRIPT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'main.py')
 
