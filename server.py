@@ -10,7 +10,7 @@ import threading
 app = Flask(__name__)
 sock = Sock(app)
 
-asgi_app = WsgToAsgi(app)
+asgi_app = WsgiToAsgi(app)
 
 SCRIPT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'main.py')
 
