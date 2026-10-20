@@ -795,7 +795,7 @@ tprint("The time will start as soon as you finish choosing a name.")
 
 print()
 tprint("Speedrun scoreboard:")
-tprint("for example nothing", fore=Fore.RED, style=Style.BRIGHT)
+tprint("[1] Korvkungen - 6:12.92", fore=Fore.RED, style=Style.BRIGHT)
 sleep(2)
 
 # Language Selection
@@ -1036,8 +1036,8 @@ if alive:
 if alive:
     timefinish = time()
     timespeedrun = timefinish - timestart
-    speedminutes = timespeedrun // 60
-    speedseconds = round(timespeedrun, 2) % 60
+    speedminutes = int(timespeedrun // 60)
+    speedseconds = round(timespeedrun, 1) % 60
     
     tprint("Congratulations on completing the speedrun!", fore=Fore.YELLOW, style=Style.BRIGHT)
     tprint("Your time:")
