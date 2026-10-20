@@ -328,7 +328,7 @@ LANGUAGES = {
         "name_censored": "Your name has been CENSORED.",
         "name_new": "Please write a new name.",
         "name_too_long": "Your name is way too long.",
-        "name_char_limit": "Please type less than 20 characters.",
+        "name_char_limit": "Please type less than 25 characters.",
         "name_confirm": "Are you sure you would like to be {name}?",
         "player_registered": "PLAYER 1: {name}",
         "yes_keys": ["y"],
@@ -363,8 +363,8 @@ LANGUAGES = {
         "name_prompt": "Skriv in namnet på din karaktär: ",
         "name_censored": "Namnet har blivit CENSURERAT.",
         "name_new": "Skriv ett nytt namn, tack.",
-        "name_too_long": "Ditt namn är för långt.",
-        "name_char_limit": "Skriv mindre än 20 symboler, tack.",
+        "name_too_long": "Ditt namn är för långt. Skriver du en insändare??",
+        "name_char_limit": "Skriv mindre än 25 symboler, tack.",
         "name_confirm": "Är du säker att du vill vara {name}?",
         "player_registered": "SPELARE 1: {name}",
         "yes_keys": ["j", "y"],
@@ -400,7 +400,7 @@ LANGUAGES = {
         "name_censored": "その名前は使用できません（検閲されました）。",
         "name_new": "別の名前を入力してください。",
         "name_too_long": "名前が長すぎます！",
-        "name_char_limit": "20文字以内で入力してください。",
+        "name_char_limit": "25文字以内で入力してください。",
         "name_confirm": "{name} で確定しますか？",
         "player_registered": "プレイヤー1: {name}",
         "yes_keys": ["は", "y"],
@@ -419,7 +419,7 @@ LANGUAGES = {
         "boss_preparing": "{boss}が強力な一撃を構えている……！",
         "shield_reflect": "完璧なガード！ 衝撃を跳ね返し、{boss}に {damage}ダメージを与えた！",
         "shield_partial": "シールドで衝撃を和らげた！",
-        "shield_partial_hp": "Boss deals {final_damage} instead of {damage}!",
+        "shield_partial_hp": "ボスは{damage}ではなく{final_damage}のダメージを与えます！",
         "victory_box": "{boss} を撃破！",
         "game_over": "力尽きてしまった ...",
         "next_prompt": "次は何をする？",
@@ -436,7 +436,7 @@ LANGUAGES = {
         "name_censored": "Твоє ім'я ЗАЦЕНЗУРИЛОСЬ.",
         "name_new": "Будь ласка, напиши нове ім'я (без матів).",
         "name_too_long": "Твоє ім'я занадто довге.",
-        "name_char_limit": "Максимум 20 символів. Ти що казку пишеш?",
+        "name_char_limit": "Максимум 25 символів. Ти що казку пишеш?",
         "name_confirm": "Ти точно хочеш бути {name}?",
         "player_registered": "ГРАВЕЦЬ 1: {name}",
         "yes_keys": ["т", "y"],
@@ -625,7 +625,7 @@ def namepick():
         sleep(2)
         return namepick()
 
-    if len(name) > 20:
+    if len(name) > 25:
         tprint(get_text("name_too_long"), fore=Fore.RED, style=Style.BRIGHT)
         sleep(1)
         tprint(get_text("name_char_limit"), fore=Fore.RED, style=Style.BRIGHT)
@@ -773,17 +773,6 @@ def fightloop(boss_key, playername):
 # Intro
 clear()
 sleep(1)
-tprint("Now with speedruns!         ", fore=Fore.GREEN, newline=False)
-sleep(.3)
-tprint("\rNu med speedruns!           ", fore=Fore.GREEN, newline=False)
-sleep(.3)
-tprint("\rスピードラン付きになりました！         ", fore=Fore.GREEN, newline=False)
-sleep(.3)
-tprint("\rТепер з спідраном!            ", fore=Fore.GREEN, newline=False)
-sleep(.3)
-tprint("\rNow with speedruns!         ", fore=Fore.GREEN)
-print()
-sleep(1)
 tprint("┏━━━━━━━━━━━━━━┓")
 tprint("┃     EMIL     ┃")
 tprint("┃  ", newline=False)
@@ -797,36 +786,17 @@ tprint("┗━━━━━━━━━━━━━━┛")
 tprint("\n┏━━━━━━━━━━━━━━━━┓\n┃ ENTER TO START ┃\n┗━━━━━━━━━━━━━━━━┛", delay=0.01)
 input()
 
-# TEMP INFO #
-clear()
-tprint("Before we continue with the game, there's a ", newline=False)
-tprint("new update!", fore=Fore.GREEN, style=Style.BRIGHT)
-print()
-tprint("Innan vi fortsätter, det finns en ", newline=False)
-tprint("ny uppdatering!", fore=Fore.GREEN, style=Style.BRIGHT)
-print()
-tprint("ゲームを続ける前に、", newline=False)
-tprint("新しいアップデート", fore=Fore.GREEN, style=Style.BRIGHT, newline=False)
-tprint("があります。")
-print()
-tprint("До того як ми продовжимо, тут є ", newline=False)
-tprint("нове оновлення!", fore=Fore.GREEN, style=Style.BRIGHT)
-print()
-sleep(3)
-
 clear()
 
 tprint("Send an email to ", newline=False)
 tprint("ujh1906@edu.kunskapsskolan.se", fore=Fore.GREEN, style=Style.BRIGHT, newline=False)
 tprint(" to log your time! (with a screenshot)")
-sleep(3)
-tprint("At the end of your game you get your time!")
 tprint("The time will start as soon as you finish choosing a name.")
 
 print()
 tprint("Speedrun scoreboard:")
 tprint("for example nothing", fore=Fore.RED, style=Style.BRIGHT)
-sleep(5)
+sleep(2)
 
 # Language Selection
 clear()
@@ -1073,8 +1043,8 @@ if alive:
     tprint("Your time:")
     tprint(f"{speedminutes}:{speedseconds}")
     tprint("(If you fake your screenshot, you will get permanently banned from speedrunning.)")
-    verificationstring = f"START.VERIF.999.666.333.000.MIN.{speedminutes}.SEC.{speedseconds}.ATKONLY.{attackonly.upper()}.START.{round(timestart,2)}.END.{round(timefinish,2)}.DONE"
-    verifstring_bytes = sample_string.encode("ascii")
-    base64_bytes = base64.b64encode(sample_string_bytes)
+    verificationstring = f"START.VERIF.999.666.333.000.MIN.{speedminutes}.SEC.{speedseconds}.ATKONLY.{attackonly}.START.{round(timestart,2)}.END.{round(timefinish,2)}.NAME.{playername}.DONE"
+    verifstring_bytes = verificationstring.encode("ascii")
+    base64_bytes = base64.b64encode(verifstring_bytes)
     base64_string = base64_bytes.decode("ascii")
     tprint(f"Code: {base64_string}")
