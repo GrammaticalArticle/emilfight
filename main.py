@@ -1,5 +1,5 @@
 import random
-from time import sleep
+from time import sleep, time
 import os
 from colorama import Fore, Back, Style, init
 from math import ceil, floor
@@ -774,13 +774,13 @@ def fightloop(boss_key, playername):
 clear()
 sleep(1)
 tprint("Now with speedruns!         ", fore=Fore.GREEN, newline=False)
-sleep(1)
+sleep(.3)
 tprint("\rNu med speedruns!           ", fore=Fore.GREEN, newline=False)
-sleep(1)
+sleep(.3)
 tprint("\rスピードラン付きになりました！         ", fore=Fore.GREEN, newline=False)
-sleep(1)
-tprint("\rТепер з спідраном!         ", fore=Fore.GREEN, newline=False)
-sleep(1)
+sleep(.3)
+tprint("\rТепер з спідраном!            ", fore=Fore.GREEN, newline=False)
+sleep(.3)
 tprint("\rNow with speedruns!         ", fore=Fore.GREEN)
 print()
 sleep(1)
@@ -821,10 +821,11 @@ tprint("ujh1906@edu.kunskapsskolan.se", fore=Fore.GREEN, style=Style.BRIGHT, new
 tprint(" to log your time! (with a screenshot)")
 sleep(3)
 tprint("At the end of your game you get your time!")
+tprint("The time will start as soon as you finish choosing a name.")
 
 print()
 tprint("Speedrun scoreboard:")
-tprint("for example nothing", fore=Fore.RED)
+tprint("for example nothing", fore=Fore.RED, style=Style.BRIGHT)
 sleep(5)
 
 # Language Selection
@@ -842,11 +843,10 @@ playername = namepick()
 sleep(1)
 
 # Tutorial Fight
+timestart = time()
 tprint(f"attackonly = {attackonly}")
-sleep(.5)
 fightloop("Hugo", playername)
 tprint(f"attackonly = {attackonly}")
-sleep(.5)
 
 # Game Loop for Main Progression
 available_bosses = ["Tage Mage", "Oscar", "Omar"]
@@ -876,7 +876,7 @@ if alive:
         if first_choice == "3":
             attackmulti *= 1.5
             tprint(f"attackonly = {attackonly}")
-            sleep(.5)
+            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -888,7 +888,7 @@ if alive:
             shieldmulti *= 1.5
             attackonly = False
             tprint(f"attackonly = {attackonly}")
-            sleep(.5)
+            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -900,7 +900,7 @@ if alive:
             healthmulti *= 1.5
             attackonly = False
             tprint(f"attackonly = {attackonly}")
-            sleep(.5)
+            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -926,10 +926,10 @@ if alive:
 
     # Run Fight 1
     tprint(f"attackonly = {attackonly}")
-    sleep(.5)
+    
     fightloop(first_boss, playername)
     tprint(f"attackonly = {attackonly}")
-    sleep(.5)
+    
 
 # --- STEP 3: Second Boss (The one you didn't pick in Fight 1) ---
 if alive:
@@ -952,7 +952,7 @@ if alive:
         if second_choice == "2":
             attackmulti *= 1.5
             tprint(f"attackonly = {attackonly}")
-            sleep(.5)
+            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -964,7 +964,7 @@ if alive:
             attackonly = False
             shieldmulti *= 1.5
             tprint(f"attackonly = {attackonly}")
-            sleep(.5)
+            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -976,7 +976,7 @@ if alive:
             attackonly = False
             healthmulti *= 1.5
             tprint(f"attackonly = {attackonly}")
-            sleep(.5)
+            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -998,7 +998,7 @@ if alive:
 if alive:
     clear()
     tprint(f"attackonly = {attackonly}")
-    sleep(.5)
+    
     tprint(get_text("next_prompt"))
 
     omar_name = BOSSES["Omar"]["names"].get(lang_code, BOSSES["Omar"]["names"]["en"])
@@ -1015,7 +1015,7 @@ if alive:
         if omar_choice == "2":
             attackmulti *= 1.5
             tprint(f"attackonly = {attackonly}")
-            sleep(.5)
+            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -1027,7 +1027,7 @@ if alive:
             shieldmulti *= 1.5
             attackonly = False
             tprint(f"attackonly = {attackonly}")
-            sleep(.5)
+            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -1039,7 +1039,7 @@ if alive:
             healthmulti *= 1.5
             attackonly = False
             tprint(f"attackonly = {attackonly}")
-            sleep(.5)
+            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -1051,15 +1051,30 @@ if alive:
         sleep(2)
 
     # Fight against Omar
-    if attackonly == False:
+    if attackonly == True:
         tprint(f"attackonly = {attackonly}")
-        sleep(.5)
-        fightloop("Omar", playername)
-        tprint(f"attackonly = {attackonly}")
-        sleep(.5)
-    else:
-        tprint(f"attackonly = {attackonly}")
-        sleep(.5)
+
         stat=get_text("attack_only_omar")
         sleep(2)
-        fightloop("Prime Omar", playername)
+        fightloop("Prime Omar", playername)        
+    else:
+        tprint(f"attackonly = {attackonly}")
+
+        fightloop("Omar", playername)
+        tprint(f"attackonly = {attackonly}")
+
+if alive:
+    timefinish = time()
+    timespeedrun = timefinish - timestart
+    speedminutes = timespeedrun // 60
+    speedseconds = round(timespeedrun, 2) % 60
+    
+    tprint("Congratulations on completing the speedrun!", fore=Fore.YELLOW, style=Style.BRIGHT)
+    tprint("Your time:")
+    tprint(f"{speedminutes}:{speedseconds}")
+    tprint("(If you fake your screenshot, you will get permanently banned from speedrunning.)")
+    verificationstring = f"START.VERIF.999.666.333.000.MIN.{speedminutes}.SEC.{speedseconds}.ATKONLY.{attackonly.upper()}.START.{round(timestart,2)}.END.{round(timefinish,2)}.DONE"
+    verifstring_bytes = sample_string.encode("ascii")
+    base64_bytes = base64.b64encode(sample_string_bytes)
+    base64_string = base64_bytes.decode("ascii")
+    tprint(f"Code: {base64_string}")
