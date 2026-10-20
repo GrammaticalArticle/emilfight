@@ -6,19 +6,6 @@ from math import ceil, floor
 import base64
 import sys
 
-"""
-REMEMBER:
-
-PUBLISH TO RENDER WHEN DONE
-Deploy on Render and configure settings
-
-Push your code to GitHub/GitLab, create a New Web Service on Render, and set:
-
-Build Command: pip install -r requirements.txt
-
-Start Command: gunicorn server:app (replace server with your main file name if different)
-"""
-
 attackonly = True
 
 sys.stdin.reconfigure(encoding="utf-8")
@@ -786,9 +773,15 @@ def fightloop(boss_key, playername):
 # Intro
 clear()
 sleep(1)
-tprint("[ 966 lines of code ]", style=Style.BRIGHT)
-tprint("[   4   ]")
-tprint("languages          \rspråk              \rмови               \r 言語               ", fore=Fore.GREEN)
+tprint("Now with speedruns!         ", fore=Fore.GREEN, newline=False)
+sleep(1)
+tprint("\rNu med speedruns!           ", fore=Fore.GREEN, newline=False)
+sleep(1)
+tprint("\rスピードラン付きになりました！         ", fore=Fore.GREEN, newline=False)
+sleep(1)
+tprint("\rТепер з спідраном!         ", fore=Fore.GREEN, newline=False)
+sleep(1)
+tprint("\rNow with speedruns!         ", fore=Fore.GREEN)
 print()
 sleep(1)
 tprint("┏━━━━━━━━━━━━━━┓")
@@ -803,6 +796,36 @@ tprint("┗━━━━━━━━━━━━━━┛")
 
 tprint("\n┏━━━━━━━━━━━━━━━━┓\n┃ ENTER TO START ┃\n┗━━━━━━━━━━━━━━━━┛", delay=0.01)
 input()
+
+# TEMP INFO #
+clear()
+tprint("Before we continue with the game, there's a ", newline=False)
+tprint("new update!", fore=Fore.GREEN, style=Style.BRIGHT)
+print()
+tprint("Innan vi fortsätter, det finns en ", newline=False)
+tprint("ny uppdatering!", fore=Fore.GREEN, style=Style.BRIGHT)
+print()
+tprint("ゲームを続ける前に、", newline=False)
+tprint("新しいアップデート", fore=Fore.GREEN, style=Style.BRIGHT, newline=False)
+tprint("があります。")
+print()
+tprint("До того як ми продовжимо, тут є ", newline=False)
+tprint("нове оновлення!", fore=Fore.GREEN, style=Style.BRIGHT)
+print()
+sleep(3)
+
+clear()
+
+tprint("Send an email to ", newline=False)
+tprint("ujh1906@edu.kunskapsskolan.se", fore=Fore.GREEN, style=Style.BRIGHT, newline=False)
+tprint(" to log your time! (with a screenshot)")
+sleep(3)
+tprint("At the end of your game you get your time!")
+
+print()
+tprint("Speedrun scoreboard:")
+tprint("for example nothing", fore=Fore.RED)
+sleep(5)
 
 # Language Selection
 clear()
@@ -819,7 +842,11 @@ playername = namepick()
 sleep(1)
 
 # Tutorial Fight
+tprint(f"attackonly = {attackonly}")
+sleep(.5)
 fightloop("Hugo", playername)
+tprint(f"attackonly = {attackonly}")
+sleep(.5)
 
 # Game Loop for Main Progression
 available_bosses = ["Tage Mage", "Oscar", "Omar"]
@@ -848,6 +875,8 @@ if alive:
     if first_choice in ["3", "4", "5"]:
         if first_choice == "3":
             attackmulti *= 1.5
+            tprint(f"attackonly = {attackonly}")
+            sleep(.5)
             tprint(
                 get_text(
                     "upgrade_done",
@@ -858,6 +887,8 @@ if alive:
         elif first_choice == "4":
             shieldmulti *= 1.5
             attackonly = False
+            tprint(f"attackonly = {attackonly}")
+            sleep(.5)
             tprint(
                 get_text(
                     "upgrade_done",
@@ -868,6 +899,8 @@ if alive:
         elif first_choice == "5":
             healthmulti *= 1.5
             attackonly = False
+            tprint(f"attackonly = {attackonly}")
+            sleep(.5)
             tprint(
                 get_text(
                     "upgrade_done",
@@ -885,16 +918,18 @@ if alive:
 
     # Determine Fight 1 & Fight 2 order
     if first_choice == "1":
-        attackonly = False
         first_boss = "Oscar"
         second_boss = "Tage Mage"
     else:
-        attackonly = False
         first_boss = "Tage Mage"
         second_boss = "Oscar"
 
     # Run Fight 1
+    tprint(f"attackonly = {attackonly}")
+    sleep(.5)
     fightloop(first_boss, playername)
+    tprint(f"attackonly = {attackonly}")
+    sleep(.5)
 
 # --- STEP 3: Second Boss (The one you didn't pick in Fight 1) ---
 if alive:
@@ -916,6 +951,8 @@ if alive:
     if second_choice in ["2", "3", "4"]:
         if second_choice == "2":
             attackmulti *= 1.5
+            tprint(f"attackonly = {attackonly}")
+            sleep(.5)
             tprint(
                 get_text(
                     "upgrade_done",
@@ -926,6 +963,8 @@ if alive:
         elif second_choice == "3":
             attackonly = False
             shieldmulti *= 1.5
+            tprint(f"attackonly = {attackonly}")
+            sleep(.5)
             tprint(
                 get_text(
                     "upgrade_done",
@@ -936,6 +975,8 @@ if alive:
         elif second_choice == "4":
             attackonly = False
             healthmulti *= 1.5
+            tprint(f"attackonly = {attackonly}")
+            sleep(.5)
             tprint(
                 get_text(
                     "upgrade_done",
@@ -951,12 +992,13 @@ if alive:
         second_choice = get_menu_choice("1")
 
     # Run Fight 2
-    attackonly = False
     fightloop(second_boss, playername)
 
 # --- STEP 4: Boss Fight 3 (Omar) ---
 if alive:
     clear()
+    tprint(f"attackonly = {attackonly}")
+    sleep(.5)
     tprint(get_text("next_prompt"))
 
     omar_name = BOSSES["Omar"]["names"].get(lang_code, BOSSES["Omar"]["names"]["en"])
@@ -972,6 +1014,8 @@ if alive:
     if omar_choice in ["2", "3", "4"]:
         if omar_choice == "2":
             attackmulti *= 1.5
+            tprint(f"attackonly = {attackonly}")
+            sleep(.5)
             tprint(
                 get_text(
                     "upgrade_done",
@@ -982,6 +1026,8 @@ if alive:
         elif omar_choice == "3":
             shieldmulti *= 1.5
             attackonly = False
+            tprint(f"attackonly = {attackonly}")
+            sleep(.5)
             tprint(
                 get_text(
                     "upgrade_done",
@@ -992,6 +1038,8 @@ if alive:
         elif omar_choice == "4":
             healthmulti *= 1.5
             attackonly = False
+            tprint(f"attackonly = {attackonly}")
+            sleep(.5)
             tprint(
                 get_text(
                     "upgrade_done",
@@ -1004,8 +1052,14 @@ if alive:
 
     # Fight against Omar
     if attackonly == False:
+        tprint(f"attackonly = {attackonly}")
+        sleep(.5)
         fightloop("Omar", playername)
+        tprint(f"attackonly = {attackonly}")
+        sleep(.5)
     else:
+        tprint(f"attackonly = {attackonly}")
+        sleep(.5)
         stat=get_text("attack_only_omar")
         sleep(2)
         fightloop("Prime Omar", playername)
