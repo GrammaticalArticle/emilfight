@@ -521,7 +521,7 @@ BOSSES = {
         "animation": None,
     },
     "Hugo": {
-        "names": {"en": "Hugo", "sv": "Hugo", "ja": "ヒューゴ"},
+        "names": {"en": "Hugo", "sv": "Hugo", "ja": "ヒューゴ", "uk": "Хюго"},
         "hp": 100,
         "attack_low": 15,
         "attack_high": 40,
@@ -795,7 +795,8 @@ tprint("The time will start as soon as you finish choosing a name.")
 
 print()
 tprint("Speedrun scoreboard:")
-tprint("[1] Korvkungen - 6:12.92", fore=Fore.RED, style=Style.BRIGHT)
+tprint("[1] [SE] fakdanmark - 3:22.30", fore=Fore.GREEN, style=Style.BRIGHT)
+tprint("[2] [JP] Korvkungen - 6:12.92", fore=Fore.RED, style=Style.BRIGHT)
 sleep(2)
 
 # Language Selection
@@ -1023,8 +1024,7 @@ if alive:
     # Fight against Omar
     if attackonly == True:
         tprint(f"attackonly = {attackonly}")
-
-        stat=get_text("attack_only_omar")
+        print(get_text("attack_only_omar"))
         sleep(2)
         fightloop("Prime Omar", playername)        
     else:
