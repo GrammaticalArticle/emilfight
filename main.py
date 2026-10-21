@@ -868,11 +868,20 @@ lang_code = ["en", "sv", "ja", "uk"][int(lang_choice) - 1]
 
 playername = namepick()
 
-tprint("Ready?   ", delay=0.01, fore=Fore.RED, style=Style.BRIGHT, newline=False)
+tprint("Ready?     ", delay=0.01, fore=Fore.RED, style=Style.BRIGHT, newline=False)
+tprint("◉ ", delay=0.01, fore=Fore.RED, style=Style.BRIGHT, newline=False)
+tprint("◯ ", delay=0.01, fore=Fore.YELLOW, style=Style.BRIGHT, newline=False)
+tprint("◯     ", delay=0.01, fore=Fore.GREEN, style=Style.BRIGHT, newline=False)
 sleep(1)
-tprint("\rSteady...", delay=0.01, fore=Fore.YELLOW, style=Style.BRIGHT, newline=False)
+tprint("\rSteady... ", delay=0.01, fore=Fore.YELLOW, style=Style.BRIGHT, newline=False)
+tprint("◉ ", delay=0.01, fore=Fore.RED, style=Style.BRIGHT, newline=False)
+tprint("◉ ", delay=0.01, fore=Fore.YELLOW, style=Style.BRIGHT, newline=False)
+tprint("◯     ", delay=0.01, fore=Fore.GREEN, style=Style.BRIGHT, newline=False)
 sleep(1)
-tprint("\rGo!      ", delay=0.01, fore=Fore.GREEN, style=Style.BRIGHT)
+tprint("\rGo!       ", delay=0.01, fore=Fore.GREEN, style=Style.BRIGHT, newline=False)
+tprint("◉ ", delay=0.01, fore=Fore.RED, style=Style.BRIGHT, newline=False)
+tprint("◉ ", delay=0.01, fore=Fore.YELLOW, style=Style.BRIGHT, newline=False)
+tprint("◉     ", delay=0.01, fore=Fore.GREEN, style=Style.BRIGHT)
 
 # Tutorial Fight
 timestart = time()
