@@ -357,7 +357,6 @@ LANGUAGES = {
         "upgrade_health": "Upgrade Health",
         "upgrade_done": "{stat} upgraded! Multiplier is now {val}%",
         "attack_only_omar": "Did you really think I would not notice you picking Attack each time.",
-        "zombie_tage_intro": "You hear a growl in the distance.",
         "speedrun_done": "Congratulations on completing the speedrun!",
         "speedrun_time": "Your time:",
         "speedrun_send": "Send your screenshot to ujh1906@edu.kunskapsskolan.se to add your time to the leaderboard!",
@@ -399,7 +398,6 @@ LANGUAGES = {
         "upgrade_health": "Uppgradera Hälsa",
         "upgrade_done": "{stat} uppgraderad! Multiplikatorn är nu {val}%",
         "attack_only_omar": "Trodde du verkligen att jag inte skulle märka att du bara valde Attack.",
-        "zombie_tage_intro": "Du hör ett morrande lite längre bort.",
         "speedrun_done": "Grattis att du klarade speedrunnen!",
         "speedrun_time": "Din tid:",
         "speedrun_send": "Skicka din screenshot till ujh1906@edu.kunskapsskolan.se för att få din tid på leaderboarden!",
@@ -441,7 +439,6 @@ LANGUAGES = {
         "upgrade_health": "最大HPを強化",
         "upgrade_done": "{stat}完了！ 倍率が {val}% にアップ！",
         "attack_only_omar": "毎回『攻撃』を選んでいることに、私が気づかないとでも思ったの？",
-        "zombie_tage_intro": "遠くから唸り声が聞こえてくる。",
         "speedrun_done": "スピードランのクリア、おめでとうございます！",
         "speedrun_time": "あなたのタイム：",
         "speedrun_send": "リーダーボードにあなたのタイムを掲載するには、スクリーンショットをujh1906@edu.kunskapsskolan.seまで送信してください！",
@@ -482,8 +479,7 @@ LANGUAGES = {
         "upgrade_shield": "Прокачати Щит",
         "upgrade_health": "Прокачати Здоров'я",
         "upgrade_done": "{stat} прокачано! Тепер бонус {val}%",
-        "attack_only_omar": "Ти реально думав що я не помічу що ти щоразу вибирав атаку?",
-        "zombie_tage_intro": "Десь удалині чути гарчання.",
+        "attack_only_omar": "Ти реально думав що я не помічу що ти щоразу вибирав атаку?"
         "speedrun_done": "Молодець, ти пройшов спідран!",
         "speedrun_time": "Твій час:",
         "speedrun_send": "Надішли твій скріншот до ujh1906@edu.kunskapsskolan.se щоб отримати місце на лідерборді!",
@@ -606,28 +602,28 @@ BOSSES = {
         },
         "animation": None,
     },
-    "Zombie Tage Mage": {
-        "names": {"en": "Zombie Tage Mage", "sv": "Zombie Tage Mage", "ja": "ゾンビーたーゲマーゲ", "uk": "Зомбі Таге Маге"},
-        "hp": 240,
-        "attack_low": 55,
-        "attack_high": 105,
+    "Mini Tage Mage": {
+        "names": {"en": "Mini Tage Mage", "sv": "Mini Tage Mage", "ja": "ミニターゲマーゲ", "uk": "Міні Таге Маге"},
+        "hp": 1000,
+        "attack_low": 1,
+        "attack_high": 10,
         "quotes": {
-            "en": "has risen from the dead.",
-            "sv": "har kommit tillbaka från döden.",
-            "ja": "は死から蘇った。",
-            "uk": "воскрес із мертвих."
+            "en": "is barely awake.",
+            "sv": "är knappt vaken.",
+            "ja": "は、かろうじて目が覚めている。",
+            "uk": "ледве прокинувся."
         },
         "attack_lines": {
-            "en": "bites you and deals {damage} damage!",
-            "sv": "biter dig och gör {damage} skada!",
-            "ja": "{boss}があなたに噛みついた！{damage}のダメージを受けた！",
-            "uk": "кусає тебе і наносить {damage} урона!"
+            "en": "somehow deals {damage} damage!",
+            "sv": "på något sätt gör {damage} skada!",
+            "ja": "{boss}は、なんと{damage}のダメージを受けた！",
+            "uk": "якось наносить {damage} урона!"
         },
         "post_victory": {
-            "en": "You...\nYou finally defeated him.",
-            "sv": "Du...\nDu besegrade honom till slut.",
-            "ja": "お前……\nついに、あいつを倒したんだな。",
-            "uk": "Ти...\nТи нарешті переміг його."
+            "en": "That was quite easy, wasn't it?",
+            "sv": "Det var ganska lätt, eller hur?",
+            "ja": "とても簡単でしたね。",
+            "uk": "Це було доволі легко, хіба не так?"
         },
         "animation": None,
     },
@@ -682,9 +678,11 @@ def namepick():
     if pick and pick[0].lower() in LANGUAGES[lang_code]["yes_keys"]:
         tprint(get_text("player_registered", name=name.upper()))
         return name
+    elif not pick:
+        tprint(get_text("player_registered", name=name.upper()))
+        return name
     else:
         return namepick()
-
 
 def formatHP(hp):
     return str(floor(hp)).rjust(3)
@@ -758,8 +756,9 @@ def fightloop(boss_key, playername):
         sleep(.5)
         tprint(get_text("boss_preparing", boss=boss_name), fore=Fore.RED)
         sleep(0.25)
-
         boss_damage = random.randint(boss["attack_low"], boss["attack_high"])
+        if boss == "Mini Tage Mage" and boss_damage == 10:
+            boss_damage = 200
 
         if player_defense > boss_damage:
             reflect_damage = int(player_defense - boss_damage)
@@ -827,7 +826,7 @@ tprint("┃  ", newline=False)
 tprint("SIMULATOR!", fore=Fore.YELLOW, style=Style.BRIGHT, newline=False)
 tprint("  ┃")
 tprint("┗━━━━━━━━━━━━━━┛")
-tprint("Version 5.0! +1 new boss")
+tprint("Version 5.1! Changed new boss")
 
 tprint("\n┏━━━━━━━━━━━━━━━━┓\n┃ ENTER TO START ┃\n┗━━━━━━━━━━━━━━━━┛", delay=0.01)
 input()
@@ -842,16 +841,21 @@ tprint("The time will start as soon as you finish choosing a name.")
 print()
 tprint("Speedrun scoreboard:")
 tprint("* if a time is \"old\", it means it was in the old version")
-tprint("New version times")
-tprint("[↑ 1] [SV] Axelosaurus - 2:27.0 [  PRIME]", fore=Fore.YELLOW, style=Style.BRIGHT)
-tprint("[↓ 2] [EN] SAWE        - 2:33.0 [NOPRIME]", fore=Fore.RED, style=Style.BRIGHT)
+tprint("Current version (v5.1) times")
+tprint("[· 1] [NO] None        - X:XX.X", fore=Fore.YELLOW, style=Style.BRIGHT)
+tprint("[· 2] [NO] None        - X:XX.X", fore=Fore.RED, style=Style.BRIGHT)
 tprint("[· 3] [NO] None        - X:XX.X", fore=Fore.YELLOW, style=Style.BRIGHT)
 print()
 print()
 tprint("Old version times")
-tprint("[1] [EN] Sawe       - 3:12.0 [v4]", fore=Fore.RED, style=Style.BRIGHT)
-tprint("[2] [SE] fakdanmark - 3:22.3 [v4]", fore=Fore.GREEN, style=Style.BRIGHT)
-tprint("[3] [EN] Korvkungen - 4:55.0 [v4]", fore=Fore.RED, style=Style.BRIGHT)
+tprint("[· 1] [SV] Axelosaurus - 2:27.0 [v5   PRIME]", fore=Fore.YELLOW, style=Style.BRIGHT)
+tprint("[· 2] [EN] SAWE        - 2:33.0 [v5 NOPRIME]", fore=Fore.RED, style=Style.BRIGHT)
+tprint("[· 3] [SV] fakdanmark  - 3:22.3 [v4]", fore=Fore.GREEN, style=Style.BRIGHT)
+tprint("[· 4] [EN] Korvkungen  - 4:55.0 [v4]", fore=Fore.RED, style=Style.BRIGHT)
+tprint("In the next version, times from ", style=Style.BRIGHT, newline=False)
+tprint("v4", fore=Fore.RED, style=Style.BRIGHT, newline=False)
+tprint(" will be removed.", style=Style.BRIGHT)
+print
 tprint("Enter to continue...", newline=False)
 input()
 
