@@ -357,6 +357,11 @@ LANGUAGES = {
         "upgrade_health": "Upgrade Health",
         "upgrade_done": "{stat} upgraded! Multiplier is now {val}%",
         "attack_only_omar": "Did you really think I would not notice you picking Attack each time.",
+        "speedrun_done": "Congratulations on completing the speedrun!",
+        "speedrun_time": "Your time:",
+        "speedrun_send": "Send your screenshot to ujh1906@edu.kunskapsskolan.se to add your time to the leaderboard!",
+        "speedrun_fake": "(If you fake your screenshot, you are going to be permanently banned from speedrunning.)",
+        "speedrun_code": "Code:"
     },
     "sv": {
         "menu_invalid": "Välj ett av sifrorna ovan.",
@@ -393,6 +398,11 @@ LANGUAGES = {
         "upgrade_health": "Uppgradera Hälsa",
         "upgrade_done": "{stat} uppgraderad! Multiplikatorn är nu {val}%",
         "attack_only_omar": "Trodde du verkligen att jag inte skulle märka att du bara valde Attack.",
+        "speedrun_done": "Grattis att du klarade speedrunnen!",
+        "speedrun_time": "Din tid:",
+        "speedrun_send": "Skicka din screenshot till ujh1906@edu.kunskapsskolan.se för att få din tid på leaderboarden!",
+        "speedrun_fake": "(Om du förfalskar din screenshot, du kommer att bli permanent bannad från att speedrunna.)",
+        "speedrun_code": "Kod:"
     },
     "ja": {
         "menu_invalid": "有効な番号を入力してください！",
@@ -428,7 +438,12 @@ LANGUAGES = {
         "upgrade_shield": "シールドを強化",
         "upgrade_health": "最大HPを強化",
         "upgrade_done": "{stat}完了！ 倍率が {val}% にアップ！",
-        "attack_only_omar": "毎回『攻撃』を選んでいることに、私が気づかないとでも思ったの？"
+        "attack_only_omar": "毎回『攻撃』を選んでいることに、私が気づかないとでも思ったの？",
+        "speedrun_done": "スピードランのクリア、おめでとうございます！",
+        "speedrun_time": "あなたのタイム：",
+        "speedrun_send": "リーダーボードにあなたのタイムを掲載するには、スクリーンショットをujh1906@edu.kunskapsskolan.seまで送信してください！",
+        "speedrun_fake": "（スクリーンショットを偽造した場合、スピードランへの参加資格を永久に剥奪されます。）",
+        "speedrun_code": "コード："
     },
     "uk": {
         "menu_invalid": "Вибери одну з цифр.",
@@ -465,6 +480,11 @@ LANGUAGES = {
         "upgrade_health": "Прокачати Здоров'я",
         "upgrade_done": "{stat} прокачано! Тепер бонус {val}%",
         "attack_only_omar": "Ти реально думав що я не помічу що ти щоразу вибирав атаку?",
+        "speedrun_done": "Молодець, ти пройшов спідран!",
+        "speedrun_time": "Твій час:",
+        "speedrun_send": "Надішли твій скріншот до ujh1906@edu.kunskapsskolan.se щоб отримати місце на лідерборді!",
+        "speedrun_fake": "(Якщо ти модифікуєш твій скріншот, ти будеш забанений від спідранів назавжди.)",
+        "speedrun_code": "Код:"
     },
 }
 
@@ -1037,14 +1057,15 @@ if alive:
     timefinish = time()
     timespeedrun = timefinish - timestart
     speedminutes = int(timespeedrun // 60)
-    speedseconds = round(timespeedrun, 1) % 60
+    speedseconds = int(str(timespeedrun)[:4]) % 60
     
-    tprint("Congratulations on completing the speedrun!", fore=Fore.YELLOW, style=Style.BRIGHT)
-    tprint("Your time:")
+    tprint(get_text("speedrun_done"), fore=Fore.YELLOW, style=Style.BRIGHT)
+    tprint(get_text("speedrun_time"))
     tprint(f"{speedminutes}:{speedseconds}")
-    tprint("(If you fake your screenshot, you will get permanently banned from speedrunning.)")
+    tprint(get_text("speedrun_send"))
+    tprint(get_text("speedrun_fake"))
     verificationstring = f"START.VERIF.999.666.333.000.MIN.{speedminutes}.SEC.{speedseconds}.ATKONLY.{attackonly}.START.{round(timestart,2)}.END.{round(timefinish,2)}.NAME.{playername}.DONE"
     verifstring_bytes = verificationstring.encode("ascii")
     base64_bytes = base64.b64encode(verifstring_bytes)
     base64_string = base64_bytes.decode("ascii")
-    tprint(f"Code: {base64_string}")
+    tprint(f"{get_text("speedrun_code")} {base64_string}")
