@@ -582,10 +582,10 @@ BOSSES = {
         "animation": None,
     },
     "Prime Omar": {
-        "names": {"en": "Prime Omar", "sv": "Prime Omar", "ja": "プライムウーマー", "uk": "Прайм Умар"},
+        "names": {"en": "Prime Omar", "sv": "Prime Omar", "ja": "かわいいウーマー", "uk": "Прайм Умар"},
         "hp": 160,
-        "attack_low": 35,
-        "attack_high": 90,
+        "attack_low": 55,
+        "attack_high": 110,
         "quotes": {
             "en": "is cracking his knuckles.",
             "sv": "knäcker sina knogar.",
@@ -843,9 +843,9 @@ print()
 tprint("Speedrun scoreboard:")
 tprint("* if a time is \"old\", it means it was in the old version")
 tprint("New version times")
-tprint("[1] [EN] SAWE        - 2:33.0 [NOPRIME]", fore=Fore.RED, style=Style.BRIGHT)
-tprint("[2] [SV] Axelosaurus - 2:44.0 [  PRIME]", fore=Fore.YELLOW, style=Style.BRIGHT)
-tprint("[3] [NO] None        - X:XX.X", fore=Fore.YELLOW, style=Style.BRIGHT)
+tprint("[↑ 1] [SV] Axelosaurus - 2:27.0 [  PRIME]", fore=Fore.YELLOW, style=Style.BRIGHT)
+tprint("[↓ 2] [EN] SAWE        - 2:33.0 [NOPRIME]", fore=Fore.RED, style=Style.BRIGHT)
+tprint("[· 3] [NO] None        - X:XX.X", fore=Fore.YELLOW, style=Style.BRIGHT)
 print()
 print()
 tprint("Old version times")
