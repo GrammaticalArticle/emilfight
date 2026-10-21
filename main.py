@@ -806,6 +806,13 @@ tprint("┗━━━━━━━━━━━━━━┛")
 tprint("\n┏━━━━━━━━━━━━━━━━┓\n┃ ENTER TO START ┃\n┗━━━━━━━━━━━━━━━━┛", delay=0.01)
 input()
 
+tprint("This game will be updated today at 13:15.")
+tprint("Any games started right now will be paused\nand resetted at 13:15.")
+tprint("The 5th boss will be added soon.")
+tprint("┏━━━━━━━━━━━━━┓\n┃   GOT IT    ┃\n┗━━━━━━━━━━━━━┛")
+
+input()
+
 clear()
 
 tprint("Send an email to ", newline=False)
