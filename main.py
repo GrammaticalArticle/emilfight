@@ -1103,7 +1103,7 @@ if alive:
 
     tprint(get_text("next_prompt"))
 
-    zomtage_name = BOSSES["Zombie Tage Mage"]["names"].get(lang_code, BOSSES["Zombie Tage Mage"]["names"]["en"])
+    zomtage_name = BOSSES["Mini Tage Mage"]["names"].get(lang_code, BOSSES["Mini Tage Mage"]["names"]["en"])
 
     tprint(f"1. {get_text('fight_option', boss="???")}", fore=Fore.RED)
     tprint(f"2. {get_text('upgrade_attack')}", fore=Fore.RED)
@@ -1152,7 +1152,7 @@ if alive:
     # Fight against Zomtage
     get_text("zombie_tage_intro")
     sleep(1)
-    fightloop("Zombie Tage Mage", playername)
+    fightloop("Mini Tage Mage", playername)
 
 if alive:
     timefinish = time()
