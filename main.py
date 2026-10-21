@@ -815,8 +815,8 @@ tprint("The time will start as soon as you finish choosing a name.")
 
 print()
 tprint("Speedrun scoreboard:")
-tprint("[1] [SE] fakdanmark - 3:22.30", fore=Fore.GREEN, style=Style.BRIGHT)
-tprint("[2] [JP] Korvkungen - 6:12.92", fore=Fore.RED, style=Style.BRIGHT)
+tprint("[1] [SE] fakdanmark - 3:22.3", fore=Fore.GREEN, style=Style.BRIGHT)
+tprint("[2] [EN] Korvkungen - 4:55.0", fore=Fore.RED, style=Style.BRIGHT)
 sleep(2)
 
 # Language Selection
@@ -1062,4 +1062,4 @@ if alive:
     verifstring_bytes = verificationstring.encode("ascii")
     base64_bytes = base64.b64encode(verifstring_bytes)
     base64_string = base64_bytes.decode("ascii")
-    tprint(get_text("speedrun_code"), base64_string)
+    print(get_text("speedrun_code"), base64_string)
