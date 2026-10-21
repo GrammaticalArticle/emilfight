@@ -1052,7 +1052,7 @@ if alive:
     timefinish = time()
     timespeedrun = timefinish - timestart
     speedminutes = int(timespeedrun // 60)
-    speedseconds = int(str(timespeedrun)[:4]) % 60
+    speedseconds = float(str(timespeedrun)[:4]) % 60
     tprint(get_text("speedrun_done"), fore=Fore.YELLOW, style=Style.BRIGHT)
     tprint(get_text("speedrun_time"))
     tprint(f"{speedminutes}:{speedseconds}")
