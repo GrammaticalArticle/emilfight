@@ -1062,4 +1062,4 @@ if alive:
     verifstring_bytes = verificationstring.encode("ascii")
     base64_bytes = base64.b64encode(verifstring_bytes)
     base64_string = base64_bytes.decode("ascii")
-    tprint(f"{get_text("speedrun_code")} {base64_string}")
+    tprint(get_text("speedrun_code"), base64_string)
