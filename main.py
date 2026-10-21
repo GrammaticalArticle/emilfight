@@ -357,6 +357,7 @@ LANGUAGES = {
         "upgrade_health": "Upgrade Health",
         "upgrade_done": "{stat} upgraded! Multiplier is now {val}%",
         "attack_only_omar": "Did you really think I would not notice you picking Attack each time.",
+        "zombie_tage_intro": "You hear a growl in the distance.",
         "speedrun_done": "Congratulations on completing the speedrun!",
         "speedrun_time": "Your time:",
         "speedrun_send": "Send your screenshot to ujh1906@edu.kunskapsskolan.se to add your time to the leaderboard!",
@@ -398,6 +399,7 @@ LANGUAGES = {
         "upgrade_health": "Uppgradera Hälsa",
         "upgrade_done": "{stat} uppgraderad! Multiplikatorn är nu {val}%",
         "attack_only_omar": "Trodde du verkligen att jag inte skulle märka att du bara valde Attack.",
+        "zombie_tage_intro": "Du hör ett morrande lite längre bort.",
         "speedrun_done": "Grattis att du klarade speedrunnen!",
         "speedrun_time": "Din tid:",
         "speedrun_send": "Skicka din screenshot till ujh1906@edu.kunskapsskolan.se för att få din tid på leaderboarden!",
@@ -439,6 +441,7 @@ LANGUAGES = {
         "upgrade_health": "最大HPを強化",
         "upgrade_done": "{stat}完了！ 倍率が {val}% にアップ！",
         "attack_only_omar": "毎回『攻撃』を選んでいることに、私が気づかないとでも思ったの？",
+        "zombie_tage_intro": "遠くから唸り声が聞こえてくる。",
         "speedrun_done": "スピードランのクリア、おめでとうございます！",
         "speedrun_time": "あなたのタイム：",
         "speedrun_send": "リーダーボードにあなたのタイムを掲載するには、スクリーンショットをujh1906@edu.kunskapsskolan.seまで送信してください！",
@@ -480,6 +483,7 @@ LANGUAGES = {
         "upgrade_health": "Прокачати Здоров'я",
         "upgrade_done": "{stat} прокачано! Тепер бонус {val}%",
         "attack_only_omar": "Ти реально думав що я не помічу що ти щоразу вибирав атаку?",
+        "zombie_tage_intro": "Десь удалині чути гарчання.",
         "speedrun_done": "Молодець, ти пройшов спідран!",
         "speedrun_time": "Твій час:",
         "speedrun_send": "Надішли твій скріншот до ujh1906@edu.kunskapsskolan.se щоб отримати місце на лідерборді!",
@@ -490,56 +494,6 @@ LANGUAGES = {
 
 # Dictionary for Boss Data
 BOSSES = {
-    "Omar": {
-        "names": {"en": "Omar", "sv": "Omar", "ja": "ウーマー", "uk": "Умар"},
-        "hp": 160,
-        "attack_low": 35,
-        "attack_high": 90,
-        "quotes": {
-            "en": "is ready to fight.",
-            "sv": "är redo att slåss.",
-            "ja": "は戦う準備ができている。",
-            "uk": "готовий битися."
-        },
-        "attack_lines": {
-            "en": "lands a punch and deals {damage} damage!",
-            "sv": "får in ett slag och gör {damage} skada!",
-            "ja": "のパンチが炸裂！ {damage}ダメージを受けた！",
-            "uk": "ударяє тебе і наносить {damage} урона!"
-        },
-        "post_victory": {
-            "en": "Congratulations on beating Omar!\nThat is one difficult fight you survived!",
-            "sv": "Grattis till att du besegrade Omar!\nDet var en riktigt svår fight du överlevde!",
-            "ja": "ウーマー撃破おめでとう！\nかなりの死闘を生き残ったな！",
-            "uk": "Молодець! Ти виграв проти Умара! \nТо була важка битва!"
-        },
-        "animation": None,
-    },
-    "Prime Omar": {
-        "names": {"en": "Prime Omar", "sv": "Prime Omar", "ja": "プライムウーマー", "uk": "Прайм Умар"},
-        "hp": 160,
-        "attack_low": 35,
-        "attack_high": 90,
-        "quotes": {
-            "en": "is cracking his knuckles.",
-            "sv": "knäcker sina knogar.",
-            "ja": "は指の関節を鳴らしている。",
-            "uk": "хрустить пальцями."
-        },
-        "attack_lines": {
-            "en": "lands a punch and deals {damage} damage!",
-            "sv": "får in ett slag och gör {damage} skada!",
-            "ja": "のパンチが炸裂！ {damage}ダメージを受けた！",
-            "uk": "ударяє тебе і наносить {damage} урона!"
-        },
-        "post_victory": {
-            "en": "Congratulations on beating PRIME Omar!\nThat is one difficult fight you survived!",
-            "sv": "Grattis till att du besegrade PRIME Omar!\nDet var en riktigt svår fight du överlevde!",
-            "ja": "プライムウーマー撃破おめでとう！\nかなりの死闘を生き残ったな！",
-            "uk": "Молодець! Ти виграв проти Прайм Умара! \nТо була важка битва!"
-        },
-        "animation": None,
-    },
     "Hugo": {
         "names": {"en": "Hugo", "sv": "Hugo", "ja": "ヒューゴ", "uk": "Хюго"},
         "hp": 100,
@@ -602,6 +556,81 @@ BOSSES = {
         },
         "animation": TAGEanimation,
     },
+    "Omar": {
+        "names": {"en": "Omar", "sv": "Omar", "ja": "ウーマー", "uk": "Умар"},
+        "hp": 160,
+        "attack_low": 35,
+        "attack_high": 90,
+        "quotes": {
+            "en": "is ready to fight.",
+            "sv": "är redo att slåss.",
+            "ja": "は戦う準備ができている。",
+            "uk": "готовий битися."
+        },
+        "attack_lines": {
+            "en": "lands a punch and deals {damage} damage!",
+            "sv": "får in ett slag och gör {damage} skada!",
+            "ja": "のパンチが炸裂！ {damage}ダメージを受けた！",
+            "uk": "ударяє тебе і наносить {damage} урона!"
+        },
+        "post_victory": {
+            "en": "Congratulations on beating Omar!\nThat is one difficult fight you survived!",
+            "sv": "Grattis till att du besegrade Omar!\nDet var en riktigt svår fight du överlevde!",
+            "ja": "ウーマー撃破おめでとう！\nかなりの死闘を生き残ったな！",
+            "uk": "Молодець! Ти виграв проти Умара! \nТо була важка битва!"
+        },
+        "animation": None,
+    },
+    "Prime Omar": {
+        "names": {"en": "Prime Omar", "sv": "Prime Omar", "ja": "プライムウーマー", "uk": "Прайм Умар"},
+        "hp": 160,
+        "attack_low": 35,
+        "attack_high": 90,
+        "quotes": {
+            "en": "is cracking his knuckles.",
+            "sv": "knäcker sina knogar.",
+            "ja": "は指の関節を鳴らしている。",
+            "uk": "хрустить пальцями."
+        },
+        "attack_lines": {
+            "en": "lands a punch and deals {damage} damage!",
+            "sv": "får in ett slag och gör {damage} skada!",
+            "ja": "のパンチが炸裂！ {damage}ダメージを受けた！",
+            "uk": "ударяє тебе і наносить {damage} урона!"
+        },
+        "post_victory": {
+            "en": "Congratulations on beating PRIME Omar!\nThat is one difficult fight you survived!",
+            "sv": "Grattis till att du besegrade PRIME Omar!\nDet var en riktigt svår fight du överlevde!",
+            "ja": "プライムウーマー撃破おめでとう！\nかなりの死闘を生き残ったな！",
+            "uk": "Молодець! Ти виграв проти Прайм Умара! \nТо була важка битва!"
+        },
+        "animation": None,
+    },
+    "Zombie Tage Mage": {
+        "names": {"en": "Zombie Tage Mage", "sv": "Zombie Tage Mage", "ja": "ゾンビーたーゲマーゲ", "uk": "Зомбі Таге Маге"},
+        "hp": 240,
+        "attack_low": 55,
+        "attack_high": 105,
+        "quotes": {
+            "en": "has risen from the dead.",
+            "sv": "har kommit tillbaka från döden.",
+            "ja": "は死から蘇った。",
+            "uk": "воскрес із мертвих."
+        },
+        "attack_lines": {
+            "en": "bites you and deals {damage} damage!",
+            "sv": "biter dig och gör {damage} skada!",
+            "ja": "{boss}があなたに噛みついた！{damage}のダメージを受けた！",
+            "uk": "кусає тебе і наносить {damage} урона!"
+        },
+        "post_victory": {
+            "en": "You...\nYou finally defeated him.",
+            "sv": "Du...\nDu besegrade honom till slut.",
+            "ja": "お前……\nついに、あいつを倒したんだな。",
+            "uk": "Ти...\nТи нарешті переміг його."
+        },
+        "animation": None,
+    },
 }
 
 
@@ -609,7 +638,7 @@ def clear():
     os.system("cls" if os.name == "nt" else "clear")
 
 
-def tprint(text, delay=0.08 if lang_code=="ja" else 0.03, fore="", back="", style="", newline=True):
+def tprint(text, delay=0.05 if lang_code=="ja" else 0.02, fore="", back="", style="", newline=True):
     for char in str(text):
         print(fore + back + style + char, end="", flush=True)
         sleep(delay)
@@ -640,16 +669,12 @@ def namepick():
     name = input()
     if any(censorword in name.lower() for censorword in censorwords):
         tprint(get_text("name_censored"), fore=Fore.RED, style=Style.BRIGHT)
-        sleep(1)
         tprint(get_text("name_new"), fore=Fore.RED, style=Style.BRIGHT)
-        sleep(2)
         return namepick()
 
     if len(name) > 25:
         tprint(get_text("name_too_long"), fore=Fore.RED, style=Style.BRIGHT)
-        sleep(1)
         tprint(get_text("name_char_limit"), fore=Fore.RED, style=Style.BRIGHT)
-        sleep(2)
         return namepick()
 
     tprint(get_text("name_confirm", name=name), delay=0.01)
@@ -687,11 +712,11 @@ def fightloop(boss_key, playername):
         f"{get_text('shield_mult', val=int(floor(shieldmulti * 100)))}\n"
         f"{get_text('health_mult', val=int(floor(healthmulti * 100)))}"
     )
-    sleep(1)
+    sleep(.5)
 
     quote = boss["quotes"].get(lang_code, boss["quotes"]["en"])
     tprint(f"{boss_name} {quote}", fore=Fore.RED, style=Style.BRIGHT)
-    sleep(2)
+    sleep(1)
 
     while playerHP > 0 and bossHP > 0:
         showstats(playername, playerHP, boss_name, bossHP)
@@ -708,7 +733,7 @@ def fightloop(boss_key, playername):
 
         if not choice:
             tprint(get_text("err_enter"), fore=Fore.YELLOW)
-            sleep(1)
+            sleep(.5)
             continue
         elif choice[0] in ["1", "１"]:
             damage = random.randint(ceil(20 * attackmulti), ceil(35 * attackmulti))
@@ -723,16 +748,16 @@ def fightloop(boss_key, playername):
             tprint(get_text("player_shield", shield=player_defense), fore=Fore.BLUE)
         else:
             tprint(get_text("err_number"), fore=Fore.YELLOW)
-            sleep(1)
+            sleep(.5)
             continue
 
         if bossHP <= 0:
             break
 
         # Boss Turn
-        sleep(1)
+        sleep(.5)
         tprint(get_text("boss_preparing", boss=boss_name), fore=Fore.RED)
-        sleep(0.5)
+        sleep(0.25)
 
         boss_damage = random.randint(boss["attack_low"], boss["attack_high"])
 
@@ -748,7 +773,7 @@ def fightloop(boss_key, playername):
                 for frame in boss["animation"]:
                     clear()
                     print(frame)
-                    sleep(0.3)
+                    sleep(0.2)
             
             final_damage = boss_damage - player_defense
             playerHP -= final_damage
@@ -762,7 +787,7 @@ def fightloop(boss_key, playername):
                 f"{boss_name} " + attack_msg.format(damage=final_damage), fore=Fore.RED
             )
 
-        sleep(1)
+        sleep(.5)
 
     clear()
     if playerHP > 0:
@@ -775,10 +800,10 @@ def fightloop(boss_key, playername):
         tprint("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛", fore=Fore.YELLOW, style=Style.BRIGHT)
 
         if "post_victory" in boss and boss["post_victory"]:
-            sleep(1)
+            sleep(.5)
             msg = boss["post_victory"].get(lang_code, boss["post_victory"]["en"])
             tprint(f"\n{msg}\n", fore=Fore.GREEN, style=Style.BRIGHT)
-            sleep(2)
+            sleep(1)
     else:
         alive = False
         tprint("╔══════════════════════╗")
@@ -792,7 +817,7 @@ def fightloop(boss_key, playername):
 
 # Intro
 clear()
-sleep(1)
+sleep(.5)
 tprint("┏━━━━━━━━━━━━━━┓")
 tprint("┃     EMIL     ┃")
 tprint("┃  ", newline=False)
@@ -802,15 +827,9 @@ tprint("┃  ", newline=False)
 tprint("SIMULATOR!", fore=Fore.YELLOW, style=Style.BRIGHT, newline=False)
 tprint("  ┃")
 tprint("┗━━━━━━━━━━━━━━┛")
+tprint("Version 5.0! +1 new boss")
 
 tprint("\n┏━━━━━━━━━━━━━━━━┓\n┃ ENTER TO START ┃\n┗━━━━━━━━━━━━━━━━┛", delay=0.01)
-input()
-
-tprint("This game will be updated today at 13:15.")
-tprint("Any games started right now will be paused\nand resetted at 13:15.")
-tprint("The 5th boss will be added soon.")
-tprint("┏━━━━━━━━━━━━━┓\n┃   GOT IT    ┃\n┗━━━━━━━━━━━━━┛")
-
 input()
 
 clear()
@@ -822,9 +841,19 @@ tprint("The time will start as soon as you finish choosing a name.")
 
 print()
 tprint("Speedrun scoreboard:")
-tprint("[1] [SE] fakdanmark - 3:22.3", fore=Fore.GREEN, style=Style.BRIGHT)
-tprint("[2] [EN] Korvkungen - 4:55.0", fore=Fore.RED, style=Style.BRIGHT)
-sleep(2)
+tprint("* if a time is \"old\", it means it was in the old version")
+tprint("New version times")
+tprint("[1] [NO] None       - X:XX.X", fore=Fore.YELLOW, style=Style.BRIGHT)
+tprint("[2] [NO] None       - X:XX.X", fore=Fore.YELLOW, style=Style.BRIGHT)
+tprint("[3] [NO] None       - X:XX.X", fore=Fore.YELLOW, style=Style.BRIGHT)
+print()
+print()
+tprint("Old version times")
+tprint("[1] [EN] Sawe       - 3:12.0 [v4]", fore=Fore.RED, style=Style.BRIGHT)
+tprint("[2] [SE] fakdanmark - 3:22.3 [v4]", fore=Fore.GREEN, style=Style.BRIGHT)
+tprint("[3] [EN] Korvkungen - 4:55.0 [v4]", fore=Fore.RED, style=Style.BRIGHT)
+tprint("Enter to continue...", newline=False)
+input()
 
 # Language Selection
 clear()
@@ -838,7 +867,12 @@ lang_choice = get_menu_choice("1234")
 lang_code = ["en", "sv", "ja", "uk"][int(lang_choice) - 1]
 
 playername = namepick()
+
+tprint("Ready?   ", delay=0.01, fore=Fore.RED, style=Style.BRIGHT, newline=False)
 sleep(1)
+tprint("\rSteady...", delay=0.01, fore=Fore.YELLOW, style=Style.BRIGHT, newline=False)
+sleep(1)
+tprint("\rGo!      ", delay=0.01, fore=Fore.GREEN, style=Style.BRIGHT)
 
 # Tutorial Fight
 timestart = time()
@@ -873,8 +907,6 @@ if alive:
     if first_choice in ["3", "4", "5"]:
         if first_choice == "3":
             attackmulti *= 1.5
-            
-            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -885,8 +917,6 @@ if alive:
         elif first_choice == "4":
             shieldmulti *= 1.5
             attackonly = False
-            
-            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -897,8 +927,6 @@ if alive:
         elif first_choice == "5":
             healthmulti *= 1.5
             attackonly = False
-            
-            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -907,7 +935,6 @@ if alive:
                 )
             )
 
-        sleep(2)
         clear()
         tprint(get_text("next_prompt"))
         tprint(f"1. {get_text('fight_option', boss=oscar_name)}", fore=Fore.RED)
@@ -1046,15 +1073,74 @@ if alive:
                 )
             )
 
-        sleep(2)
+        sleep(1)
 
     # Fight against Omar
     if attackonly == True:
         print(get_text("attack_only_omar"))
-        sleep(2)
+        sleep(1)
         fightloop("Prime Omar", playername)        
     else:
         fightloop("Omar", playername)
+
+
+# --- STEP 5: Boss Fight 4 (Zombie Tage) ---
+if alive:
+    clear()
+
+    tprint(get_text("next_prompt"))
+
+    zomtage_name = BOSSES["Zombie Tage Mage"]["names"].get(lang_code, BOSSES["Zombie Tage Mage"]["names"]["en"])
+
+    tprint(f"1. {get_text('fight_option', boss="???")}", fore=Fore.RED)
+    tprint(f"2. {get_text('upgrade_attack')}", fore=Fore.RED)
+    tprint(f"3. {get_text('upgrade_shield')}", fore=Fore.BLUE)
+    tprint(f"4. {get_text('upgrade_health')}", fore=Fore.LIGHTGREEN_EX)
+
+    omar_choice = get_menu_choice("1234")
+
+    # Handle upgrades before ZomTage
+    if omar_choice in ["2", "3", "4"]:
+        if omar_choice == "2":
+            attackmulti *= 1.5
+
+            tprint(
+                get_text(
+                    "upgrade_done",
+                    stat=get_text("upgrade_attack"),
+                    val=int(floor(attackmulti * 100)),
+                )
+            )
+        elif omar_choice == "3":
+            shieldmulti *= 1.5
+            attackonly = False
+
+            tprint(
+                get_text(
+                    "upgrade_done",
+                    stat=get_text("upgrade_shield"),
+                    val=int(floor(shieldmulti * 100)),
+                )
+            )
+        elif omar_choice == "4":
+            healthmulti *= 1.5
+            attackonly = False
+
+            tprint(
+                get_text(
+                    "upgrade_done",
+                    stat=get_text("upgrade_health"),
+                    val=int(floor(healthmulti * 100)),
+                )
+            )
+
+        sleep(1)
+
+    # Fight against Zomtage
+    get_text("zombie_tage_intro")
+    sleep(1)
+    fightloop("Zombie Tage Mage", playername)
+
 if alive:
     timefinish = time()
     timespeedrun = timefinish - timestart
