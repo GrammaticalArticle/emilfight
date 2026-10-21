@@ -479,7 +479,7 @@ LANGUAGES = {
         "upgrade_shield": "Прокачати Щит",
         "upgrade_health": "Прокачати Здоров'я",
         "upgrade_done": "{stat} прокачано! Тепер бонус {val}%",
-        "attack_only_omar": "Ти реально думав що я не помічу що ти щоразу вибирав атаку?"
+        "attack_only_omar": "Ти реально думав що я не помічу що ти щоразу вибирав атаку?",
         "speedrun_done": "Молодець, ти пройшов спідран!",
         "speedrun_time": "Твій час:",
         "speedrun_send": "Надішли твій скріншот до ujh1906@edu.kunskapsskolan.se щоб отримати місце на лідерборді!",
