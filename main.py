@@ -835,9 +835,9 @@ sleep(1)
 
 # Tutorial Fight
 timestart = time()
-tprint(f"attackonly = {attackonly}")
+
 fightloop("Hugo", playername)
-tprint(f"attackonly = {attackonly}")
+
 
 # Game Loop for Main Progression
 available_bosses = ["Tage Mage", "Oscar", "Omar"]
@@ -866,7 +866,7 @@ if alive:
     if first_choice in ["3", "4", "5"]:
         if first_choice == "3":
             attackmulti *= 1.5
-            tprint(f"attackonly = {attackonly}")
+            
             
             tprint(
                 get_text(
@@ -878,7 +878,7 @@ if alive:
         elif first_choice == "4":
             shieldmulti *= 1.5
             attackonly = False
-            tprint(f"attackonly = {attackonly}")
+            
             
             tprint(
                 get_text(
@@ -890,7 +890,7 @@ if alive:
         elif first_choice == "5":
             healthmulti *= 1.5
             attackonly = False
-            tprint(f"attackonly = {attackonly}")
+            
             
             tprint(
                 get_text(
@@ -916,10 +916,10 @@ if alive:
         second_boss = "Oscar"
 
     # Run Fight 1
-    tprint(f"attackonly = {attackonly}")
+    
     
     fightloop(first_boss, playername)
-    tprint(f"attackonly = {attackonly}")
+    
     
 
 # --- STEP 3: Second Boss (The one you didn't pick in Fight 1) ---
@@ -942,7 +942,7 @@ if alive:
     if second_choice in ["2", "3", "4"]:
         if second_choice == "2":
             attackmulti *= 1.5
-            tprint(f"attackonly = {attackonly}")
+            
             
             tprint(
                 get_text(
@@ -954,7 +954,7 @@ if alive:
         elif second_choice == "3":
             attackonly = False
             shieldmulti *= 1.5
-            tprint(f"attackonly = {attackonly}")
+            
             
             tprint(
                 get_text(
@@ -966,7 +966,7 @@ if alive:
         elif second_choice == "4":
             attackonly = False
             healthmulti *= 1.5
-            tprint(f"attackonly = {attackonly}")
+            
             
             tprint(
                 get_text(
@@ -988,7 +988,7 @@ if alive:
 # --- STEP 4: Boss Fight 3 (Omar) ---
 if alive:
     clear()
-    tprint(f"attackonly = {attackonly}")
+    
     
     tprint(get_text("next_prompt"))
 
@@ -1005,7 +1005,7 @@ if alive:
     if omar_choice in ["2", "3", "4"]:
         if omar_choice == "2":
             attackmulti *= 1.5
-            tprint(f"attackonly = {attackonly}")
+            
             
             tprint(
                 get_text(
@@ -1017,7 +1017,7 @@ if alive:
         elif omar_choice == "3":
             shieldmulti *= 1.5
             attackonly = False
-            tprint(f"attackonly = {attackonly}")
+            
             
             tprint(
                 get_text(
@@ -1029,7 +1029,7 @@ if alive:
         elif omar_choice == "4":
             healthmulti *= 1.5
             attackonly = False
-            tprint(f"attackonly = {attackonly}")
+            
             
             tprint(
                 get_text(
@@ -1043,22 +1043,16 @@ if alive:
 
     # Fight against Omar
     if attackonly == True:
-        tprint(f"attackonly = {attackonly}")
         print(get_text("attack_only_omar"))
         sleep(2)
         fightloop("Prime Omar", playername)        
     else:
-        tprint(f"attackonly = {attackonly}")
-
         fightloop("Omar", playername)
-        tprint(f"attackonly = {attackonly}")
-
 if alive:
     timefinish = time()
     timespeedrun = timefinish - timestart
     speedminutes = int(timespeedrun // 60)
     speedseconds = int(str(timespeedrun)[:4]) % 60
-    
     tprint(get_text("speedrun_done"), fore=Fore.YELLOW, style=Style.BRIGHT)
     tprint(get_text("speedrun_time"))
     tprint(f"{speedminutes}:{speedseconds}")
