@@ -57,7 +57,8 @@ def admin_announce():
                     formatted_msg = f"\r\n\r\n\x1b[41m\x1b[37m[MEDDELANDE FRÅN UTVECKLAREN]: {message}\x1b[0m\r\n> "
                     count = 0
                     with sessions_lock:
-                        for sid, session in list(ACTIVE_SESSIONS).items():
+                        # FIXAT: list() ligger nu korrekt runt ordbokens .items()
+                        for sid, session in list(ACTIVE_SESSIONS.items()):
                             try:
                                 session['ws'].send(formatted_msg)
                                 count += 1
@@ -119,11 +120,10 @@ def terminal(ws):
                         text_data = data.decode('utf-8', errors='replace')
                         
                         if "__SERVER_DATA__" in text_data:
-                            # Splitta på rader först
                             for line in text_data.split('\n'):
                                 cleaned_line = clean_ansi(line)
                                 
-                                # FIXAT: .strip() körs nu på den utbrutna strängen istället för listan!
+                                # FIXAT: .strip() körs nu på själva textsträngen istället för listan!
                                 if "__SERVER_DATA__:LANG:" in cleaned_line:
                                     lang = cleaned_line.split("__SERVER_DATA__:LANG:")[1].strip()
                                     with sessions_lock:
