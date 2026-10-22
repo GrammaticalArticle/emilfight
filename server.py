@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, jsonify
 from flask_sock import Sock
 import pty
 import os
@@ -6,30 +6,44 @@ import sys
 import select
 import subprocess
 import threading
-import json
+import re
 
 app = Flask(__name__)
 sock = Sock(app)
 
 SCRIPT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'main.py')
 
-# Håller koll på alla aktiva spelsessioner med rik data
 ACTIVE_SESSIONS = {}
 sessions_lock = threading.Lock()
 
 ADMIN_PASSWORD = "hemligt123"
 
+def clean_ansi(text):
+    """Tar bort dolda ANSI/färgkoder från terminalsträngar"""
+    ansi_escape = re.compile(r'(?:\x1B[@-_][0-?]*[ -/]*[@-~])')
+    return ansi_escape.sub('', text).strip()
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
+# Skickar ut en ren JSON-lista till adminpanelen varje sekund via JavaScript
+@app.route('/api/sessions')
+def api_sessions():
+    with sessions_lock:
+        simplified_sessions = {}
+        for sid, s in ACTIVE_SESSIONS.items():
+            simplified_sessions[sid] = {
+                'id': s['id'],
+                'name': s['name'],
+                'lang': s['lang'],
+                'stage': s['stage']
+            }
+        return jsonify(simplified_sessions)
 
-# --- ADMIN PANEL ---
 @app.route('/admin-announce', methods=['GET', 'POST'])
 def admin_announce():
     status_msg = ""
-    
     if request.method == 'POST':
         action = request.form.get('action')
         password = request.form.get('password', '')
@@ -37,7 +51,6 @@ def admin_announce():
         if password != ADMIN_PASSWORD:
             status_msg = "<h3 style='color:red;'>Fel lösenord!</h3>"
         else:
-            # Hantera globalt meddelande till alla anslutna WebSockets
             if action == "broadcast":
                 message = request.form.get('message', '')
                 if message:
@@ -52,16 +65,13 @@ def admin_announce():
                                 del ACTIVE_SESSIONS[sid]
                     status_msg = f"<h3 style='color:green;'>Meddelande skickat till {count} spelare!</h3>"
             
-            # Hantera att stänga av ett specifikt spel för uppdatering
             elif action == "kick_session":
                 target_sid = request.form.get('session_id')
                 with sessions_lock:
                     if target_sid in ACTIVE_SESSIONS:
                         try:
-                            # Skicka ett snyggt tprint-meddelande innan vi stänger
                             update_msg = "\r\n\r\n\x1b[33m[UPDATE]: Spelet stängs tillfälligt för en uppdatering. Försök igen om ett par minuter!\x1b[0m\r\n"
                             ACTIVE_SESSIONS[target_sid]['ws'].send(update_msg)
-                            # Döda processen
                             ACTIVE_SESSIONS[target_sid]['proc'].terminate()
                         except Exception:
                             pass
@@ -69,11 +79,10 @@ def admin_announce():
 
     return render_template('admin.html', sessions=ACTIVE_SESSIONS, status_msg=status_msg, password=ADMIN_PASSWORD)
 
-
 @sock.route('/ws')
 def terminal(ws):
     master_fd, slave_fd = pty.openpty()
-    session_id = str(id(ws)) # Unikt ID för just denna flik/spelare
+    session_id = str(id(ws))
 
     env = os.environ.copy()
     env['TERM'] = 'xterm-256color'
@@ -88,12 +97,12 @@ def terminal(ws):
     )
     os.close(slave_fd)
 
-    # Spara sessionen med standardvärden tills main.py skickar riktiga namnet
     with sessions_lock:
         ACTIVE_SESSIONS[session_id] = {
             'id': session_id,
-            'name': 'Väljer namn...',
-            'lang': 'Okänt',
+            'name': 'Startar...',
+            'lang': 'Väljer...',
+            'stage': 'Intro/Meny',
             'ws': ws,
             'proc': proc
         }
@@ -109,27 +118,31 @@ def terminal(ws):
                     if data:
                         text_data = data.decode('utf-8', errors='replace')
                         
-                        # --- FÅNGA UPP DATA FRÅN SPELET UTAN ATT VISA DET PÅ SKÄRMEN ---
                         if "__SERVER_DATA__" in text_data:
-                            for line in text_data.split('\r\n'):
-                                if "__SERVER_DATA__:LANG:" in line:
-                                    lang = line.split("__SERVER_DATA__:LANG:")[1].strip()
+                            for line in text_data.split('\n'):
+                                cleaned_line = clean_ansi(line)
+                                if "__SERVER_DATA__:LANG:" in cleaned_line:
+                                    lang = cleaned_line.split("__SERVER_DATA__:LANG:")[1].strip()
                                     with sessions_lock:
                                         if session_id in ACTIVE_SESSIONS:
                                             ACTIVE_SESSIONS[session_id]['lang'] = lang
-                                elif "__SERVER_DATA__:NAME:" in line:
-                                    name = line.split("__SERVER_DATA__:NAME:")[1].strip()
+                                elif "__SERVER_DATA__:NAME:" in cleaned_line:
+                                    name = cleaned_line.split("__SERVER_DATA__:NAME:")[1].strip()
                                     with sessions_lock:
                                         if session_id in ACTIVE_SESSIONS:
                                             ACTIVE_SESSIONS[session_id]['name'] = name
-                            continue # Hoppa över att skicka detta råa kommando till spelarens skärm!
+                                elif "__SERVER_DATA__:STAGE:" in cleaned_line:
+                                    stage = cleaned_line.split("__SERVER_DATA__:STAGE:")[1].strip()
+                                    with sessions_lock:
+                                        if session_id in ACTIVE_SESSIONS:
+                                            ACTIVE_SESSIONS[session_id]['stage'] = stage
+                            continue
                         
                         try:
                             ws.send(text_data)
                         except Exception:
                             break
                 if proc.poll() is not None:
-                    # Hantera när spelet tar slut normalt
                     try:
                         ws.send('\r\n\r\n\x1b[31m[Game ended. Refresh to play again.]\x1b[0m\r\n')
                     except Exception:
