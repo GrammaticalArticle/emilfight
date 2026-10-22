@@ -119,8 +119,11 @@ def terminal(ws):
                         text_data = data.decode('utf-8', errors='replace')
                         
                         if "__SERVER_DATA__" in text_data:
+                            # Splitta på rader först
                             for line in text_data.split('\n'):
                                 cleaned_line = clean_ansi(line)
+                                
+                                # FIXAT: .strip() körs nu på den utbrutna strängen istället för listan!
                                 if "__SERVER_DATA__:LANG:" in cleaned_line:
                                     lang = cleaned_line.split("__SERVER_DATA__:LANG:")[1].strip()
                                     with sessions_lock:
