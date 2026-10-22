@@ -3,112 +3,167 @@
 <head>
     <title>Emil Boss Fight - Admin Panel</title>
     <style>
-        body { font-family: sans-serif; max-width: 950px; margin: 30px auto; padding: 20px; background: #f4f6f9; }
+        body { font-family: sans-serif; max-width: 1000px; margin: 30px auto; padding: 20px; background: #f4f6f9; }
         .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
         th { background: #333; color: white; }
-        .btn { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .btn-danger { background: #ff4d4d; color: white; }
-        .btn-primary { background: #007bff; color: white; padding: 10px 20px; width: 100%; }
-        input[type="text"], input[type="password"], textarea { width: 100%; padding: 8px; margin: 5px 0 15px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .btn-primary { background: #007bff; color: white; width: 100%; padding: 10px; }
+        .btn-warning { background: #ffc107; color: black; }
+        .btn-success { background: #28a745; color: white; }
+        input, textarea, select { width: 100%; padding: 8px; margin: 5px 0 15px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
-    <h2>Emil Boss Fight Simulator – Admin Dashboard</h2>
+    <h2>Emil Boss Fight Simulator – Spelledarpanel 🏆</h2>
     <div>{{ status_msg | safe }}</div>
 
-    <!-- GLOBAL BROADCAST -->
-    <div class="card">
-        <h3>Skicka meddelande till ALLA terminaler</h3>
-        <form method="post">
-            <input type="hidden" name="action" value="broadcast">
-            <label>Admin-lösenord:</label>
-            <input type="password" id="admin_pwd" name="password" value="{{ password }}" required>
-            <label>Meddelande:</label>
-            <textarea name="message" rows="2" placeholder="Skriv live-notis här..."></textarea>
-            <button type="submit" class="btn btn-primary">Skicka globalt meddelande</button>
-        </form>
+    <div class="grid">
+        <!-- TURNERINGSKONTROLL -->
+        <div class="card" style="border-top: 5px solid #6f42c1;">
+            <h3>🏆 Turneringsstyrning</h3>
+            <form method="post">
+                <input type="hidden" name="action" value="tournament_control">
+                <input type="hidden" name="password" id="admin_pwd" value="{{ password }}">
+                
+                <label>Välj Competitor 1:</label>
+                <select name="comp1" id="select_comp1">
+                    <option value="">-- Ingen vald --</option>
+                </select>
+                
+                <label>Välj Competitor 2:</label>
+                <select name="comp2" id="select_comp2">
+                    <option value="">-- Ingen vald --</option>
+                </select>
+                
+                <button type="submit" name="t_action" value="set_competitors" class="btn btn-warning" style="width:100%; margin-bottom:15px;">Sätt Aktiva Tävlare</button>
+                <hr>
+                
+                <label>Live-kommentar (visas när du pausar):</label>
+                <textarea name="commentary" rows="2" placeholder="T.ex: Vilken sjuk match! minsann har bara 12 HP kvar!!"></textarea>
+                
+                <div style="display:flex; gap:10px;">
+                    <button type="submit" name="t_action" value="pause" class="btn btn-danger" style="flex:1;">⏸️ Pausa allas spel</button>
+                    <button type="submit" name="t_action" value="resume" class="btn btn-success" style="flex:1;">▶️ Släpp pausen</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- GLOBAL BROADCAST -->
+        <div class="card">
+            <h3>💬 Skicka globalt meddelande</h3>
+            <form method="post">
+                <input type="hidden" name="action" value="broadcast">
+                <label>Admin-lösenord:</label>
+                <input type="password" name="password" value="{{ password }}" required>
+                <label>Meddelande:</label>
+                <textarea name="message" rows="2" placeholder="Skriv en snabb systemnotis..."></textarea>
+                <button type="submit" class="btn btn-primary">Skicka meddelande</button>
+            </form>
+        </div>
     </div>
 
     <!-- AKTIVA SESSIONER LIVE -->
     <div class="card">
-        <h3>Aktiva spelare just nu Live (Uppdateras varje sekund ⏱️)</h3>
+        <h3>Aktiva spelare och turneringsstatus Live ⏱️</h3>
         <table>
             <thead>
                 <tr>
-                    <th>Session ID</th>
                     <th>Spelarnamn</th>
                     <th>Valt Språk</th>
                     <th>Vart i spelet?</th>
                     <th>Live HP (Spelare / Boss)</th>
+                    <th>Roll / Status</th>
                     <th>Åtgärd</th>
                 </tr>
             </thead>
             <tbody id="sessions_table_body">
-                <tr>
-                    <td colspan="6" style="text-align: center; color: #777;">Laddar live-data...</td>
-                </tr>
+                <tr><td colspan="6" style="text-align: center;">Laddar live-data...</td></tr>
             </tbody>
         </table>
     </div>
 
     <!-- AUTO REFRESH SCRIPT -->
     <script>
+        let currentCompetitors = { comp1: "{{ tournament.competitor_1 }}", comp2: "{{ tournament.competitor_2 }}" };
+
         function updateSessions() {
-            // Hämtar lösenordet så att kick-knapparna fungerar även efter automatiska omladdningar
             const currentPassword = document.getElementById('admin_pwd').value;
 
             fetch('/api/sessions')
                 .then(response => response.json())
                 .then(data => {
                     const tbody = document.getElementById('sessions_table_body');
+                    const comp1Select = document.getElementById('select_comp1');
+                    const comp2Select = document.getElementById('select_comp2');
+                    
+                    // Spara gamla val i select-menyerna så de inte nollställs under uppdatering
+                    const val1 = comp1Select.value;
+                    const val2 = comp2Select.value;
+                    
+                    let selectHtml = '<option value="">-- Ingen vald --</option>';
                     let html = '';
 
-                    const keys = Object.keys(data);
+                    const keys = Object.keys(data.sessions);
                     if (keys.length === 0) {
                         html = '<tr><td colspan="6" style="text-align: center; color: #777;">Inga aktiva spelare just nu.</td></tr>';
                     } else {
                         keys.forEach(sid => {
-                            const session = data[sid];
+                            const session = data.sessions[sid];
                             
-                            // Snygg färgkodning av HP: Grön för spelaren, röd för bossen
+                            // Bygg select-menyn till turneringen
+                            selectHtml += `<option value="${session.id}">${session.name} (${session.id.substring(0,4)})</option>`;
+
+                            // Kolla roll i turneringen
+                            let role = '<span style="color:#777;">Åskådare</span>';
+                            if (session.id === data.tournament.competitor_1) {
+                                role = '<b style="color:#ffc107; background:#fff3cd; padding:3px 6px; border-radius:4px;">🏆 COMPETITOR 1</b>';
+                            } else if (session.id === data.tournament.competitor_2) {
+                                role = '<b style="color:#ffc107; background:#fff3cd; padding:3px 6px; border-radius:4px;">🏆 COMPETITOR 2</b>';
+                            }
+
                             let hpDisplay = `<span style="color: #777;">N/A</span>`;
                             if (session.hp && session.hp !== 'N/A') {
                                 const parts = session.hp.split('/');
-                                if (parts.length === 2) {
-                                    hpDisplay = `<b style="color: #28a745;">${parts[0]} HP</b> / <b style="color: #dc3545;">${parts[1]} HP</b>`;
-                                }
+                                hpDisplay = `<b style="color: #28a745;">${parts[0]} HP</b> / <b style="color: #dc3545;">${parts[1]} HP</b>`;
                             }
 
                             html += `
                             <tr>
-                                <td><code>${session.id.substring(0, 8)}...</code></td>
-                                <td><strong>${session.name}</strong></td>
+                                <td><strong>${session.name}</strong> <small style="color:#aaa;">(${session.id.substring(0,4)})</small></td>
                                 <td><span style="background: #e1ecf4; padding: 3px 8px; border-radius: 4px;">${session.lang.toUpperCase()}</span></td>
                                 <td><span style="color: #2b579a; font-weight: 500;">${session.stage}</span></td>
                                 <td>${hpDisplay}</td>
+                                <td>${role}</td>
                                 <td>
                                     <form method="post" style="display:inline;">
                                         <input type="hidden" name="action" value="kick_session">
                                         <input type="hidden" name="session_id" value="${session.id}">
                                         <input type="hidden" name="password" value="${currentPassword}">
-                                        <button type="submit" class="btn btn-danger">Stoppa för Update</button>
+                                        <button type="submit" class="btn btn-danger">Stoppa</button>
                                     </form>
                                 </td>
                             </tr>`;
                         });
                     }
                     tbody.innerHTML = html;
-                })
-                .catch(err => console.error("Kunde inte hämta live-sessioner:", err));
+                    
+                    // Uppdatera selectboxarna endast om antalet spelare ändrats (så vi inte sabbar klickandet)
+                    if(comp1Select.options.length - 1 !== keys.length) {
+                        comp1Select.innerHTML = selectHtml;
+                        comp2Select.innerHTML = selectHtml;
+                        comp1Select.value = val1 || currentCompetitors.comp1;
+                        comp2Select.value = val2 || currentCompetitors.comp2;
+                    }
+                });
         }
 
-        // Kör direkt och sätter upp intervallet för varje sekund
         updateSessions();
         setInterval(updateSessions, 1000);
     </script>
-
 </body>
 </html>
