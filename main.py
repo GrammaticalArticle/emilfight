@@ -717,6 +717,9 @@ def fightloop(boss_key, playername):
     sleep(1)
 
     while playerHP > 0 and bossHP > 0:
+        # --- DET HÄR ÄR NYTT: Skicka HP live till din server.py ---
+        print(f"__SERVER_DATA__:HP:{int(playerHP)}/{int(bossHP)}", flush=True)
+
         showstats(playername, playerHP, boss_name, bossHP)
 
         tprint(get_text("choose_option"), style=Style.BRIGHT)
@@ -733,13 +736,13 @@ def fightloop(boss_key, playername):
             tprint(get_text("err_enter"), fore=Fore.YELLOW)
             sleep(.5)
             continue
-        elif choice[0] in ["1", "１"]:
+        elif choice in ["1", "１"]:
             damage = random.randint(ceil(20 * attackmulti), ceil(35 * attackmulti))
             bossHP -= damage
             tprint(
                 get_text("player_attack", boss=boss_name, damage=damage), fore=Fore.RED
             )
-        elif choice[0] in ["2", "２"]:
+        elif choice in ["2", "２"]:
             player_defense = random.randint(
                 ceil(10 * shieldmulti), ceil(50 * shieldmulti)
             )
@@ -750,6 +753,8 @@ def fightloop(boss_key, playername):
             continue
 
         if bossHP <= 0:
+            # Skicka sista statusen om bossen dör innan loopen bryts
+            print(f"__SERVER_DATA__:HP:{int(playerHP)}/0", flush=True)
             break
 
         # Boss Turn
@@ -771,20 +776,22 @@ def fightloop(boss_key, playername):
                     clear()
                     print(frame)
                     sleep(0.2)
-            
+
             final_damage = boss_damage - player_defense
             playerHP -= final_damage
             if player_defense > 0:
                 tprint(get_text("shield_partial"))
                 tprint(get_text("shield_partial_hp", boss=boss_name, final_damage=final_damage, damage=boss_damage))
 
-            
             attack_msg = boss["attack_lines"].get(lang_code, boss["attack_lines"]["en"])
             tprint(
                 f"{boss_name} " + attack_msg.format(damage=final_damage), fore=Fore.RED
             )
 
         sleep(.5)
+
+    # --- DET HÄR ÄR NYTT: Återställ HP på servern när striden är över ---
+    print(f"__SERVER_DATA__:HP:N/A", flush=True)
 
     clear()
     if playerHP > 0:
