@@ -888,16 +888,20 @@ playername = namepick()
 
 print(f"__SERVER_DATA__:NAME:{playername}", flush=True)
 
+
+print(f"__SERVER_DATA__:STAGE:Ready", flush=True)
 tprint("Ready?     ", delay=0.01, fore=Fore.RED, style=Style.BRIGHT, newline=False)
 tprint("◉ ", delay=0.01, fore=Fore.RED, style=Style.BRIGHT, newline=False)
 tprint("◯ ", delay=0.01, fore=Fore.YELLOW, style=Style.BRIGHT, newline=False)
 tprint("◯     ", delay=0.01, fore=Fore.GREEN, style=Style.BRIGHT, newline=False)
 sleep(1)
+print(f"__SERVER_DATA__:STAGE:Steady", flush=True)
 tprint("\rSteady... ", delay=0.01, fore=Fore.YELLOW, style=Style.BRIGHT, newline=False)
 tprint("◉ ", delay=0.01, fore=Fore.RED, style=Style.BRIGHT, newline=False)
 tprint("◉ ", delay=0.01, fore=Fore.YELLOW, style=Style.BRIGHT, newline=False)
 tprint("◯     ", delay=0.01, fore=Fore.GREEN, style=Style.BRIGHT, newline=False)
 sleep(1)
+print(f"__SERVER_DATA__:STAGE:Go", flush=True)
 tprint("\rGo!       ", delay=0.01, fore=Fore.GREEN, style=Style.BRIGHT, newline=False)
 tprint("◉ ", delay=0.01, fore=Fore.RED, style=Style.BRIGHT, newline=False)
 tprint("◉ ", delay=0.01, fore=Fore.YELLOW, style=Style.BRIGHT, newline=False)
@@ -906,6 +910,7 @@ tprint("◉     ", delay=0.01, fore=Fore.GREEN, style=Style.BRIGHT)
 # Tutorial Fight
 timestart = time()
 
+print(f"__SERVER_DATA__:STAGE:Fighting Hugo", flush=True)
 fightloop("Hugo", playername)
 
 
@@ -924,6 +929,8 @@ if alive:
         lang_code, BOSSES["Tage Mage"]["names"]["en"]
     )
 
+    print(f"__SERVER_DATA__:STAGE:Choosing", flush=True)
+
     tprint(f"1. {get_text('fight_option', boss=oscar_name)}", fore=Fore.RED)
     tprint(f"2. {get_text('fight_option', boss=tage_name)}", fore=Fore.CYAN)
     tprint(f"3. {get_text('upgrade_attack')}", fore=Fore.RED)
@@ -935,6 +942,7 @@ if alive:
     # Handle upgrades before fight 1
     if first_choice in ["3", "4", "5"]:
         if first_choice == "3":
+            print(f"__SERVER_DATA__:STAGE:Upgrading attack", flush=True)
             attackmulti *= 1.5
             tprint(
                 get_text(
@@ -944,6 +952,7 @@ if alive:
                 )
             )
         elif first_choice == "4":
+            print(f"__SERVER_DATA__:STAGE:Upgrading shield", flush=True)
             shieldmulti *= 1.5
             attackonly = False
             tprint(
@@ -954,6 +963,7 @@ if alive:
                 )
             )
         elif first_choice == "5":
+            print(f"__SERVER_DATA__:STAGE:Upgrading health", flush=True)
             healthmulti *= 1.5
             attackonly = False
             tprint(
@@ -980,13 +990,14 @@ if alive:
 
     # Run Fight 1
     
-    
+    print(f"__SERVER_DATA__:STAGE:Fighting {first_boss}", flush=True)
     fightloop(first_boss, playername)
     
     
 
 # --- STEP 3: Second Boss (The one you didn't pick in Fight 1) ---
 if alive:
+    print(f"__SERVER_DATA__:STAGE:Choosing", flush=True)
     clear()
     tprint(get_text("next_prompt"))
 
@@ -1004,9 +1015,8 @@ if alive:
     # Handle upgrades before fight 2
     if second_choice in ["2", "3", "4"]:
         if second_choice == "2":
+            print(f"__SERVER_DATA__:STAGE:Upgrading attack", flush=True)
             attackmulti *= 1.5
-            
-            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -1015,10 +1025,9 @@ if alive:
                 )
             )
         elif second_choice == "3":
+            print(f"__SERVER_DATA__:STAGE:Upgrading shield", flush=True)
             attackonly = False
             shieldmulti *= 1.5
-            
-            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -1027,10 +1036,9 @@ if alive:
                 )
             )
         elif second_choice == "4":
+            print(f"__SERVER_DATA__:STAGE:Upgrading health", flush=True)
             attackonly = False
             healthmulti *= 1.5
-            
-            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -1046,13 +1054,13 @@ if alive:
         second_choice = get_menu_choice("1")
 
     # Run Fight 2
+    print(f"__SERVER_DATA__:STAGE:Fighting {second_boss}", flush=True)
     fightloop(second_boss, playername)
 
 # --- STEP 4: Boss Fight 3 (Omar) ---
 if alive:
+    print(f"__SERVER_DATA__:STAGE:Choosing", flush=True)
     clear()
-    
-    
     tprint(get_text("next_prompt"))
 
     omar_name = BOSSES["Omar"]["names"].get(lang_code, BOSSES["Omar"]["names"]["en"])
@@ -1067,9 +1075,8 @@ if alive:
     # Handle upgrades before Omar
     if omar_choice in ["2", "3", "4"]:
         if omar_choice == "2":
+            print(f"__SERVER_DATA__:STAGE:Upgrading attack", flush=True)
             attackmulti *= 1.5
-            
-            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -1078,10 +1085,9 @@ if alive:
                 )
             )
         elif omar_choice == "3":
+            print(f"__SERVER_DATA__:STAGE:Upgrading shield", flush=True)
             shieldmulti *= 1.5
             attackonly = False
-            
-            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -1090,10 +1096,9 @@ if alive:
                 )
             )
         elif omar_choice == "4":
+            print(f"__SERVER_DATA__:STAGE:Upgrading health", flush=True)
             healthmulti *= 1.5
             attackonly = False
-            
-            
             tprint(
                 get_text(
                     "upgrade_done",
@@ -1106,15 +1111,18 @@ if alive:
 
     # Fight against Omar
     if attackonly == True:
+        print(f"__SERVER_DATA__:STAGE:Fighting Prime Omar", flush=True)
         print(get_text("attack_only_omar"))
         sleep(1)
-        fightloop("Prime Omar", playername)        
+        fightloop("Prime Omar", playername)
     else:
+        print(f"__SERVER_DATA__:STAGE:Fighting Omar", flush=True)
         fightloop("Omar", playername)
 
 
-# --- STEP 5: Boss Fight 4 (Zombie Tage) ---
+# --- STEP 5: Boss Fight 4 (Mini Tage) ---
 if alive:
+    print(f"__SERVER_DATA__:STAGE:Choosing", flush=True)
     clear()
 
     tprint(get_text("next_prompt"))
@@ -1128,11 +1136,11 @@ if alive:
 
     omar_choice = get_menu_choice("1234")
 
-    # Handle upgrades before ZomTage
+    # Handle upgrades before MiniTage
     if omar_choice in ["2", "3", "4"]:
         if omar_choice == "2":
+            print(f"__SERVER_DATA__:STAGE:Upgrading attack", flush=True)
             attackmulti *= 1.5
-
             tprint(
                 get_text(
                     "upgrade_done",
@@ -1141,9 +1149,9 @@ if alive:
                 )
             )
         elif omar_choice == "3":
+            print(f"__SERVER_DATA__:STAGE:Upgrading shield", flush=True)
             shieldmulti *= 1.5
             attackonly = False
-
             tprint(
                 get_text(
                     "upgrade_done",
@@ -1152,9 +1160,9 @@ if alive:
                 )
             )
         elif omar_choice == "4":
+            print(f"__SERVER_DATA__:STAGE:Upgrading health", flush=True)
             healthmulti *= 1.5
             attackonly = False
-
             tprint(
                 get_text(
                     "upgrade_done",
@@ -1165,12 +1173,12 @@ if alive:
 
         sleep(1)
 
-    # Fight against Zomtage
-    get_text("zombie_tage_intro")
-    sleep(1)
+    # Fight against Mini Tage
+    print(f"__SERVER_DATA__:STAGE:Fighting Mini Tage", flush=True)
     fightloop("Mini Tage Mage", playername)
 
 if alive:
+    print(f"__SERVER_DATA__:STAGE:Finished speedrun", flush=True)
     timefinish = time()
     timespeedrun = timefinish - timestart
     speedminutes = int(timespeedrun // 60)
