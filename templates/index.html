@@ -1,24 +1,155 @@
-<!-- Lägg till detta i index.html vid din terminal för åskådare -->
-<div style="margin-top: 15px; text-align: center; font-family: sans-serif;">
-    <h3>🏆 Turneringsläge: Heja på din favorit!</h3>
-    <button onclick="sendCheer('comp1')" style="padding: 10px; background: #28a745; color: white; border: none; margin-right: 10px; cursor: pointer;">Heja på Competitor 1! 🔥</button>
-    <button onclick="sendCheer('comp2')" style="padding: 10px; background: #007bff; color: white; border: none; cursor: pointer;">Heja på Competitor 2! 🔥</button>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emil Boss Fight Simulator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-<script>
-    // Din befintliga WebSocket-variabel i index.html brukar heta "socket" eller "ws"
-    // Använd den för att skicka cheer-signaler:
-    function sendCheer(competitorRole) {
-        // Hämta turneringstillståndet från API:et för att veta rätt ID
-        fetch('/api/sessions')
-            .then(res => res.json())
-            .then(data => {
-                let targetId = competitorRole === 'comp1' ? data.tournament.competitor_1 : data.tournament.competitor_2;
-                if(targetId) {
-                    ws.send("__CHEER__:" + targetId);
-                } else {
-                    alert("Ingen aktiv competitor på den här platsen just nu!");
+        body {
+            background: #0d0d0d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: 'Courier New', monospace;
+        }
+
+        h1 {
+            color: #e94560;
+            margin-bottom: 14px;
+            font-size: 1.4rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0 0 12px rgba(233, 69, 96, 0.5);
+        }
+
+        #terminal-container {
+            width: 820px;
+            max-width: 97vw;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(233, 69, 96, 0.2);
+            border: 1px solid #2a2a2a;
+            padding: 10px;
+        }
+
+        #terminal-bar {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red    { background: #ff5f57; }
+        .dot-yellow { background: #febc2e; }
+        .dot-green  { background: #28c840; }
+
+        #terminal-label {
+            color: #444;
+            font-size: 0.78rem;
+            margin: 0 auto;
+            letter-spacing: 1px;
+        }
+
+        #hint {
+            color: #444;
+            font-size: 0.72rem;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Emil Boss Fight Simulator</h1>
+    <div id="terminal-container">
+        <div id="terminal-bar">
+            <div class="dot dot-red"></div>
+            <div class="dot dot-yellow"></div>
+            <div class="dot dot-green"></div>
+            <span id="terminal-label">boss-fight — python main.py</span>
+        </div>
+        <div id="terminal"></div>
+    </div>
+    <p id="hint">Click the terminal and use your keyboard to play</p>
+
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js"></script>
+    <script>
+        const term = new Terminal({
+            cursorBlink: true,
+            theme: {
+                background:      '#000000',
+                foreground:      '#e0e0e0',
+                cursor:          '#e94560',
+                selectionBackground: '#e9456044',
+                black:           '#000000',
+                red:             '#ff5555',
+                green:           '#50fa7b',
+                yellow:          '#f1fa8c',
+                blue:            '#6272a4',
+                magenta:         '#ff79c6',
+                cyan:            '#8be9fd',
+                white:           '#f8f8f2',
+                brightBlack:     '#44475a',
+                brightRed:       '#ff5555',
+                brightGreen:     '#50fa7b',
+                brightYellow:    '#ffb86c',
+                brightBlue:      '#6272a4',
+                brightMagenta:   '#ff79c6',
+                brightCyan:      '#8be9fd',
+                brightWhite:     '#ffffff',
+            },
+            fontFamily: '"Courier New", Courier, monospace',
+            fontSize: 14,
+            lineHeight: 1.2,
+            scrollback: 2000,
+        });
+
+        const fitAddon = new FitAddon.FitAddon();
+        term.loadAddon(fitAddon);
+        term.open(document.getElementById('terminal'));
+        fitAddon.fit();
+
+        function connect() {
+            const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const ws = new WebSocket(`${protocol}//${location.host}/ws`);
+
+            ws.onopen = () => {
+                console.log('WebSocket connected');
+                term.focus();
+            };
+
+            ws.onmessage = (event) => {
+                term.write(event.data);
+            };
+
+            ws.onerror = (e) => {
+                console.error('WebSocket error', e);
+            };
+
+            ws.onclose = () => {
+                console.log('WebSocket closed');
+                term.write('\r\n\x1b[31m[Disconnected. Refresh to play again.]\x1b[0m\r\n');
+            };
+
+            term.onData((data) => {
+                if (ws.readyState === WebSocket.OPEN) {
+                    ws.send(data);
                 }
             });
-    }
-</script>
+        }
+
+        connect();
+
+        window.addEventListener('resize', () => fitAddon.fit());
+    </script>
+</body>
+</html>
