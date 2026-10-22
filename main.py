@@ -654,9 +654,20 @@ def get_menu_choice(valid_options):
     valid_options = set(valid_options)
     while True:
         pick = input("> ")
+
+        # --- TURNERINGSHANTERING INUTI INPUT ---
+        if pick == "__TOURNAMENT_PAUSE__":
+            # Loopa tills servern skickar resume-flaggan via terminal-inputen
+            while True:
+                resume_check = input()
+                if resume_check == "__TOURNAMENT_RESUME__":
+                    break
+            continue # Ta nästa giltiga input från spelaren
+
         if pick and pick[0] in valid_options:
-            return pick[0]
+            return pick
         tprint(get_text("menu_invalid"), fore=Fore.YELLOW)
+
 
 
 def namepick():
@@ -854,9 +865,9 @@ print("* if a time is \"old\", it means it was in the old version")
 sleep(.05)
 print("Current version (v5.2) times")
 sleep(.05)
-tprint("[· 1] [EN] Emil        - 4:52.47", fore=Fore.YELLOW, style=Style.BRIGHT)
+tprint("[· 1] [EN] Emil        - 4:52.47 [  LEADER  ]", fore=Fore.YELLOW, style=Style.BRIGHT)
 sleep(.05)
-tprint("[· 2] [NO] None        - X:XX.XX", fore=Fore.RED, style=Style.BRIGHT)
+tprint("[· 2] [NO] jerkmate    - 5:07.68 [-15.21 sec]", fore=Fore.RED, style=Style.BRIGHT)
 sleep(.05)
 tprint("[· 3] [NO] None        - X:XX.XX", fore=Fore.YELLOW, style=Style.BRIGHT)
 sleep(.05)
@@ -1194,6 +1205,7 @@ if alive:
     timespeedrun = timefinish - timestart
     speedminutes = int(timespeedrun // 60)
     speedseconds = float(str(timespeedrun)[:6]) % 60
+    print(f"__SERVER_DATA__:STAGE:Finished speedrun", flush=True)
     tprint(get_text("speedrun_done"), fore=Fore.YELLOW, style=Style.BRIGHT)
     tprint(get_text("speedrun_time"))
     tprint(f"{speedminutes}:{speedseconds}")
