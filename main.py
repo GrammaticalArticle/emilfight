@@ -843,7 +843,7 @@ tprint("┃  ", newline=False)
 tprint("SIMULATOR!", fore=Fore.YELLOW, style=Style.BRIGHT, newline=False)
 tprint("  ┃")
 tprint("┗━━━━━━━━━━━━━━┛")
-tprint("Version 5.2! Added admin")
+tprint("Version 5.3! Added tournaments")
 
 tprint("\n┏━━━━━━━━━━━━━━━━┓\n┃ ENTER TO START ┃\n┗━━━━━━━━━━━━━━━━┛", delay=0.01)
 input()
