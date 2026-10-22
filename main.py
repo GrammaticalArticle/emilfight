@@ -813,6 +813,7 @@ def fightloop(boss_key, playername):
 
 
 # Intro
+print(f"__SERVER_DATA__:STAGE:Intro", flush=True)
 clear()
 sleep(.5)
 tprint("┏━━━━━━━━━━━━━━┓")
@@ -831,11 +832,13 @@ input()
 
 clear()
 
+print(f"__SERVER_DATA__:STAGE:Speedrun info", flush=True)
 tprint("Send an email to ", newline=False)
 tprint("ujh1906@edu.kunskapsskolan.se", fore=Fore.GREEN, style=Style.BRIGHT, newline=False)
 tprint(" to log your time! (with a screenshot)")
 tprint("The time will start as soon as you finish choosing a name.")
 
+print(f"__SERVER_DATA__:STAGE:Scoreboard", flush=True)
 print()
 sleep(.05)
 print("Speedrun scoreboard:")
@@ -872,6 +875,7 @@ tprint("Enter to continue...", newline=False)
 input()
 
 # Language Selection
+print(f"__SERVER_DATA__:STAGE:Language select", flush=True)
 clear()
 tprint("Choose a language:", fore=Fore.YELLOW)
 tprint("1. English", fore=Fore.RED, style=Style.BRIGHT)
