@@ -604,7 +604,7 @@ BOSSES = {
     },
     "Mini Tage Mage": {
         "names": {"en": "Mini Tage Mage", "sv": "Mini Tage Mage", "ja": "ミニターゲマーゲ", "uk": "Міні Таге Маге"},
-        "hp": 10000,
+        "hp": 2000,
         "attack_low": 1,
         "attack_high": 10,
         "quotes": {
