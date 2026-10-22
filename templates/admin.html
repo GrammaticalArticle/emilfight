@@ -17,7 +17,7 @@
 <body>
 
     <h2>Emil Boss Fight Simulator – Admin Dashboard</h2>
-    <div><div>{{ status_msg | safe }}</div></div>
+    <div>{{ status_msg | safe }}</div>
 
     <!-- GLOBAL BROADCAST -->
     <div class="card">
@@ -25,7 +25,7 @@
         <form method="post">
             <input type="hidden" name="action" value="broadcast">
             <label>Admin-lösenord:</label>
-            <input type="password" name="password" required>
+            <input type="password" id="admin_pwd" name="password" value="{{ password }}" required>
             <label>Meddelande:</label>
             <textarea name="message" rows="2" placeholder="Skriv live-notis här..."></textarea>
             <button type="submit" class="btn btn-primary">Skicka globalt meddelande</button>
@@ -34,42 +34,69 @@
 
     <!-- AKTIVA SESSIONER LIVE -->
     <div class="card">
-        <h3>Aktiva spelare just nu Live</h3>
+        <h3>Aktiva spelare just nu Live (Uppdateras varje sekund ⏱️)</h3>
         <table>
             <thead>
                 <tr>
                     <th>Session ID</th>
                     <th>Spelarnamn</th>
                     <th>Valt Språk</th>
+                    <th>Vart i spelet?</th>
                     <th>Åtgärd</th>
                 </tr>
             </thead>
-            <tbody>
-                {% if sessions %}
-                    {% for sid, session in sessions.items() %}
-                    <tr>
-                        <td><code>{{ session.id[:8] }}...</code></td>
-                        <td><strong>{{ session.name }}</strong></td>
-                        <td><span style="background: #e1ecf4; padding: 3px 8px; border-radius: 4px;">{{ session.lang | upper }}</span></td>
-                        <td>
-                            <form method="post" style="display:inline;">
-                                <input type="hidden" name="action" value="kick_session">
-                                <input type="hidden" name="session_id" value="{{ session.id }}">
-                                <label style="font-size: 11px;">Password:</label>
-                                <input type="password" name="password" style="width:70px; padding: 3px; margin:0;" required>
-                                <button type="submit" class="btn btn-danger">Stoppa för Update</button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="4" style="text-align: center; color: #777;">Inga aktiva spelare just nu.</td>
-                    </tr>
-                {% endif %}
+            <tbody id="sessions_table_body">
+                <tr>
+                    <td colspan="5" style="text-align: center; color: #777;">Laddar live-data...</td>
+                </tr>
             </tbody>
         </table>
     </div>
+
+    <!-- AUTO REFRESH SCRIPT -->
+    <script>
+        function updateSessions() {
+            // Hämta aktuellt skrivet lösenord så att det matchar i kick-knapparna
+            const currentPassword = document.getElementById('admin_pwd').value;
+
+            fetch('/api/sessions')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('sessions_table_body');
+                    let html = '';
+
+                    const keys = Object.keys(data);
+                    if (keys.length === 0) {
+                        html = '<tr><td colspan="5" style="text-align: center; color: #777;">Inga aktiva spelare just nu.</td></tr>';
+                    } else {
+                        keys.forEach(sid => {
+                            const session = data[sid];
+                            html += `
+                            <tr>
+                                <td><code>${session.id.substring(0, 8)}...</code></td>
+                                <td><strong>${session.name}</strong></td>
+                                <td><span style="background: #e1ecf4; padding: 3px 8px; border-radius: 4px;">${session.lang.toUpperCase()}</span></td>
+                                <td><span style="color: #2b579a; font-weight: 500;">${session.stage}</span></td>
+                                <td>
+                                    <form method="post" style="display:inline;">
+                                        <input type="hidden" name="action" value="kick_session">
+                                        <input type="hidden" name="session_id" value="${session.id}">
+                                        <input type="hidden" name="password" value="${currentPassword}">
+                                        <button type="submit" class="btn btn-danger">Stoppa för Update</button>
+                                    </form>
+                                </td>
+                            </tr>`;
+                        });
+                    }
+                    tbody.innerHTML = html;
+                })
+                .catch(err => console.error("Kunde inte hämta live-sessioner:", err));
+        }
+
+        // Kör direkt och sedan en gång varje sekund
+        updateSessions();
+        setInterval(updateSessions, 1000);
+    </script>
 
 </body>
 </html>
