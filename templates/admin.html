@@ -3,7 +3,7 @@
 <head>
     <title>Emil Boss Fight - Admin Panel</title>
     <style>
-        body { font-family: sans-serif; max-width: 900px; margin: 30px auto; padding: 20px; background: #f4f6f9; }
+        body { font-family: sans-serif; max-width: 950px; margin: 30px auto; padding: 20px; background: #f4f6f9; }
         .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
@@ -42,12 +42,13 @@
                     <th>Spelarnamn</th>
                     <th>Valt Språk</th>
                     <th>Vart i spelet?</th>
+                    <th>Live HP (Spelare / Boss)</th>
                     <th>Åtgärd</th>
                 </tr>
             </thead>
             <tbody id="sessions_table_body">
                 <tr>
-                    <td colspan="5" style="text-align: center; color: #777;">Laddar live-data...</td>
+                    <td colspan="6" style="text-align: center; color: #777;">Laddar live-data...</td>
                 </tr>
             </tbody>
         </table>
@@ -56,7 +57,7 @@
     <!-- AUTO REFRESH SCRIPT -->
     <script>
         function updateSessions() {
-            // Hämta aktuellt skrivet lösenord så att det matchar i kick-knapparna
+            // Hämtar lösenordet så att kick-knapparna fungerar även efter automatiska omladdningar
             const currentPassword = document.getElementById('admin_pwd').value;
 
             fetch('/api/sessions')
@@ -67,16 +68,27 @@
 
                     const keys = Object.keys(data);
                     if (keys.length === 0) {
-                        html = '<tr><td colspan="5" style="text-align: center; color: #777;">Inga aktiva spelare just nu.</td></tr>';
+                        html = '<tr><td colspan="6" style="text-align: center; color: #777;">Inga aktiva spelare just nu.</td></tr>';
                     } else {
                         keys.forEach(sid => {
                             const session = data[sid];
+                            
+                            // Snygg färgkodning av HP: Grön för spelaren, röd för bossen
+                            let hpDisplay = `<span style="color: #777;">N/A</span>`;
+                            if (session.hp && session.hp !== 'N/A') {
+                                const parts = session.hp.split('/');
+                                if (parts.length === 2) {
+                                    hpDisplay = `<b style="color: #28a745;">${parts[0]} HP</b> / <b style="color: #dc3545;">${parts[1]} HP</b>`;
+                                }
+                            }
+
                             html += `
                             <tr>
                                 <td><code>${session.id.substring(0, 8)}...</code></td>
                                 <td><strong>${session.name}</strong></td>
                                 <td><span style="background: #e1ecf4; padding: 3px 8px; border-radius: 4px;">${session.lang.toUpperCase()}</span></td>
                                 <td><span style="color: #2b579a; font-weight: 500;">${session.stage}</span></td>
+                                <td>${hpDisplay}</td>
                                 <td>
                                     <form method="post" style="display:inline;">
                                         <input type="hidden" name="action" value="kick_session">
@@ -93,7 +105,7 @@
                 .catch(err => console.error("Kunde inte hämta live-sessioner:", err));
         }
 
-        // Kör direkt och sedan en gång varje sekund
+        // Kör direkt och sätter upp intervallet för varje sekund
         updateSessions();
         setInterval(updateSessions, 1000);
     </script>
