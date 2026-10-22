@@ -842,9 +842,9 @@ print()
 tprint("Speedrun scoreboard:")
 tprint("* if a time is \"old\", it means it was in the old version")
 tprint("Current version (v5.1) times")
-tprint("[· 1] [NO] None        - X:XX.X", fore=Fore.YELLOW, style=Style.BRIGHT)
-tprint("[· 2] [NO] None        - X:XX.X", fore=Fore.RED, style=Style.BRIGHT)
-tprint("[· 3] [NO] None        - X:XX.X", fore=Fore.YELLOW, style=Style.BRIGHT)
+tprint("[· 1] [EN] SAWE        - 10:45.0", fore=Fore.YELLOW, style=Style.BRIGHT)
+tprint("[· 2] [SV] Axel        - 11:11.0", fore=Fore.RED, style=Style.BRIGHT)
+tprint("[· 3] [NO] None        - XX:XX.X", fore=Fore.YELLOW, style=Style.BRIGHT)
 print()
 print()
 tprint("Old version times")
@@ -1158,7 +1158,7 @@ if alive:
     timefinish = time()
     timespeedrun = timefinish - timestart
     speedminutes = int(timespeedrun // 60)
-    speedseconds = float(str(timespeedrun)[:4]) % 60
+    speedseconds = float(str(timespeedrun)[:6]) % 60
     tprint(get_text("speedrun_done"), fore=Fore.YELLOW, style=Style.BRIGHT)
     tprint(get_text("speedrun_time"))
     tprint(f"{speedminutes}:{speedseconds}")
