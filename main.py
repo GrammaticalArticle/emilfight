@@ -859,6 +859,7 @@ input()
 clear()
 
 print(f"__SERVER_DATA__:STAGE:Speedrun info", flush=True)
+sleep(0.05)
 tprint("The speedrun will start as soon as you finish choosing a name.")
 
 print(f"__SERVER_DATA__:STAGE:Scoreboard", flush=True)
