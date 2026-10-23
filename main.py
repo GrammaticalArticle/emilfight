@@ -8,8 +8,6 @@ import sys
 
 attackonly = True
 
-sys.stdin.reconfigure(encoding="utf-8")
-
 # Animations #
 HUGOanimation = [
     """
