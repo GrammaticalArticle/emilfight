@@ -8,7 +8,7 @@ import sys
 
 attackonly = True
 
-sys.stdin.reconfigure(encoding="utf-8", errors="replace")
+sys.stdin.reconfigure(encoding="utf-8")
 
 # Animations #
 HUGOanimation = [
@@ -1017,11 +1017,11 @@ if alive:
         second_boss = "Oscar"
 
     # Run Fight 1
-    
+
     print(f"__SERVER_DATA__:STAGE:Fighting {first_boss}", flush=True)
     fightloop(first_boss, playername)
-    
-    
+
+
 
 # --- STEP 3: Second Boss (The one you didn't pick in Fight 1) ---
 if alive:
@@ -1033,6 +1033,8 @@ if alive:
         lang_code, BOSSES[second_boss]["names"]["en"]
     )
 
+    sleep(1)
+    
     tprint(f"1. {get_text('fight_option', boss=other_boss_name)}", fore=Fore.RED)
     tprint(f"2. {get_text('upgrade_attack')}", fore=Fore.RED)
     tprint(f"3. {get_text('upgrade_shield')}", fore=Fore.BLUE)
