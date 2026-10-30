@@ -63,7 +63,7 @@ def admin_announce():
             if action == "broadcast":
                 message = request.form.get('message', '')
                 if message:
-                    formatted_msg = f"\r\n\r\n\x1b[41m\x1b[37m[MEDDELANDE FRÅN UTVECKLAREN]: {message}\x1b[0m\r\n> "
+                    formatted_msg = f"\r\n\r\n\x1b[41m\x1b[37m[MESSAGE FROM ADMIN]: {message}\x1b[0m\r\n> "
                     with sessions_lock:
                         for sid, session in list(ACTIVE_SESSIONS.items()):
                             try: session['ws'].send(formatted_msg)
